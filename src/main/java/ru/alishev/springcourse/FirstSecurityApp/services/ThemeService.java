@@ -52,15 +52,15 @@ public class ThemeService {
         return foundTheme.orElse(null);
     }
 
-    public List<Theme> findAll() {  //??????????
-        return themeRepository.findAll();
+//    public List<Theme> findAll() {  //??????????
+//        return themeRepository.findAll();
+//    }
+
+
+    public Page findAll(Pageable pageable) {
+        return themeRepository.findAll(pageable);
     }
 
-
-//    public Page findAll(Pageable pageable) {
-//        return themeRepository.findAll(pageable);
-//    }
-//
 
 }
 
