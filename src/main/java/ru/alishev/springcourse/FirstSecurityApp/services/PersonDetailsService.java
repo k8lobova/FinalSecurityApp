@@ -9,6 +9,7 @@ import ru.alishev.springcourse.FirstSecurityApp.models.Person;
 import ru.alishev.springcourse.FirstSecurityApp.repositories.PeopleRepository;
 import ru.alishev.springcourse.FirstSecurityApp.security.PersonDetails;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,5 +33,9 @@ public class PersonDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
 
         return new PersonDetails(person.get());
+    }
+
+    public List<Person> findAll() {
+        return peopleRepository.findAll();
     }
 }
