@@ -56,18 +56,19 @@
 
 <!-- ФОРМА ВВОДА НАЗВАНИЯ И ОПИСАНИЯ НОВОЙ ТЕМЫ -->
 <div class="container">
-    <th:block th:if="${themeForm.themename != null}">
+    <th:block th:if="${themeName != null}">
         <h2 class="form-heading" align="center">Update theme</h2>
     </th:block>
-    <th:block th:if="${themeForm.themeName == null}">
+    <th:block th:if="${themeName == null}">
         <h2 class="form-heading" align="center">Create new theme</h2>
     </th:block>
     <br><br>
-    <form method="POST" th:object="${themeForm}" class="form-signin">
+
+    <form method="POST"  th:object="${ru.alishev.springcourse.FirstSecurityApp.models.Theme}" class="form-signin">
         <div class="message_write">
-            <input type="text" th:field="*{themeForm.themeName}" class="form-control" placeholder="The title of the topic" autofocus="true"/>
+            <input type="text" th:field="*{themeName}" class="form-control" placeholder="The title of the topic" autofocus="true"/>
             <br>
-            <textarea resize="none" th:field="*{themeForm.description}" class="form-control" placeholder="Your description.."></textarea>
+            <textarea resize="none" th:field="*{description}" class="form-control" placeholder="Your description.."></textarea>
             <div class="clearfix"></div>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>

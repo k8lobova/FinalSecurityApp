@@ -32,7 +32,7 @@ public class ThemeController {
                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "theme/new";
         themeService.save(theme);
-        return "redirect:/theme";
+        return "redirect:/forum";
     }
 
 

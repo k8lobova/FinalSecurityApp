@@ -16,13 +16,13 @@ public class Theme implements Comparable<Theme>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "themeName")
+    @Column(name = "theme_name")
     private String themeName;
 
     @Column(name = "description")//описание
     private String description;
 
-    @Column(name = "lastPostDate")
+    @Column(name = "last_post_date")
     private Date lastPostDate;
 
     public Theme() {
