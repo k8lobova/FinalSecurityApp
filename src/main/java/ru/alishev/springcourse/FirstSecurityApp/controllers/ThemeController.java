@@ -3,6 +3,7 @@ package ru.alishev.springcourse.FirstSecurityApp.controllers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +33,9 @@ public class ThemeController {
     @RequestMapping(value = {"/forum/{id}"}, method = RequestMethod.GET)
     public String forum(Model model, @PathVariable("id") int id) {
         String userRole = SecurityContextHolder.getContext ().getAuthentication ().getAuthorities ().toString ();
-        Pageable pageable = new PageRequest(id, PAGE_SIZE);
+        //Pageable pageable = new PageRequest(id, PAGE_SIZE);
+        //Pageable pageable = PageRequest.of(id, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(id, PAGE_SIZE);
         Page allInstanceTheme = themeService.findAll (pageable);
 
         model.addAttribute ("userRole", userRole);
