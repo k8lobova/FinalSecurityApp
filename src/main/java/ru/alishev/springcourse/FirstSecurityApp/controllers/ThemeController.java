@@ -8,6 +8,7 @@ import ru.alishev.springcourse.FirstSecurityApp.services.ThemeService;
 import ru.alishev.springcourse.FirstSecurityApp.services.PersonDetailsService;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("SpringMVCViewInspection")
@@ -31,6 +32,10 @@ public class ThemeController {
     public String createTheme(@ModelAttribute("theme") @Valid Theme theme,
                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return "theme/new";
+        // Устанавливаем lastPostDate в текущее время
+        theme.setLastPostDate(new Date());
+
+        // Сохраняем объект Theme
         themeService.save(theme);
         return "redirect:/forum";
     }
