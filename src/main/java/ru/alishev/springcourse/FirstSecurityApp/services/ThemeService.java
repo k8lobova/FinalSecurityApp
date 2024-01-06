@@ -47,8 +47,9 @@ public class ThemeService {
         themeRepository.deleteById(id);
     }
 
-    public Theme findOne(int id) {
+    public Theme findById(int id) {
         Optional<Theme> foundTheme = themeRepository.findById(id);
+        //Optional<Theme> foundTheme = themeRepository.findById(id);
         return foundTheme.orElse(null);
     }
 

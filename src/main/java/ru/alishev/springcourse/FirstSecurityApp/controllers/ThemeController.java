@@ -68,7 +68,7 @@ public class ThemeController {
 
 
     //БЛОК УДАЛЕНИЯ
-    @GetMapping("/deleteTheme{id}")
+    @GetMapping("/deleteTheme/{id}")
     public String deleteTheme(@PathVariable("id") int id) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if (userRole.equals("[ROLE_ADMIN]")) {
@@ -81,18 +81,18 @@ public class ThemeController {
 
 
     //БЛОК РЕДАКТИРОВАНИЯ
-    @GetMapping("/updateTheme{id}")
+    @GetMapping("/updateTheme/{id}")
     public String updateTheme(@PathVariable("id") int id, Model model) {
-        model.addAttribute("themeForm", themeService.findOne(id));
+        model.addAttribute("themeForm", themeService.findById(id));
         List<Theme> allInstanceTheme = themeService.getAllThemes();
         model.addAttribute("allInstanceTheme", allInstanceTheme);
         return "createUpdateTheme";
     }
 
-    @PostMapping("/updateTheme{id}")
+    @PostMapping("/updateTheme/{id}")
     public String updateTheme(@PathVariable("id") int id,
                               @ModelAttribute("themeForm") Theme themeForm) {
-        themeForm.setLastPostDate(themeService.findOne(id).getLastPostDate());
+        themeForm.setLastPostDate(themeService.findById(id).getLastPostDate());
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if (userRole.equals("[ROLE_ADMIN]")) {
             themeService.save(themeForm);

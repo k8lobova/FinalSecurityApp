@@ -22,4 +22,9 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
 
     //Optional<Person> findByUsername(String username);
+
+    Topic findByThemeId(int themeId);
+
+    Page<Topic> findAllByThemeId(Pageable pageable, int themeId);
+
 }

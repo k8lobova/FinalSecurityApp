@@ -19,16 +19,16 @@ public class Topic implements Comparable<Topic> {
     @Column(name = "username")//знаем создателя топика
     private String username;
 
-    @Column(name = "topicName")//знаем ися топика
+    @Column(name = "topic_name")//знаем ися топика
     private String topicName;
 
     @Column(name = "description")//описание
     private String description;
 
-    @Column(name = "lastPostDate")//знаем время послед сообщения
+    @Column(name = "last_post_date")//знаем время послед сообщения
     private Date lastPostDate;
 
-    @Column(name = "themeId")//знаем к какой теме привязан топик
+    @Column(name = "theme_id")//знаем к какой теме привязан топик
     private int themeId;
 
     public Topic() {

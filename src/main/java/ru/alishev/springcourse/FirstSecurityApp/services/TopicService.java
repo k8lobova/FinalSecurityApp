@@ -49,10 +49,12 @@ public class TopicService {
         return topicRepository.findAll();
     }
 
-    public Page<Topic> findAll(Pageable pageable, int themeId) {
-        return topicRepository.findAll(pageable);
+    public Topic findTopicByThemeId(int themeId) {
+        return topicRepository.findByThemeId(themeId);
+    }
+    public Page<Topic> findAllTopicsByThemeId(Pageable pageable, int themeId) {
+        return topicRepository.findAllByThemeId(pageable, Math.toIntExact(themeId));
         //return topicRepository.findAll(pageable, Math.toIntExact(themeId));23.06 28.12
     }
-
 
 }
