@@ -1,5 +1,6 @@
 package ru.alishev.springcourse.FirstSecurityApp.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,18 +20,19 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
-@SuppressWarnings("SpringMVCViewInspection")
+//@SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class ThemeController {
     private final PersonDetailsService peopleService;
     private final ThemeService themeService;
 
+    @Autowired
     public ThemeController(PersonDetailsService peopleService, ThemeService themeService) {
         this.peopleService = peopleService;
         this.themeService = themeService;
     }
 
-    @RequestMapping(value = {"/forum/{id}"}, method = RequestMethod.GET)
+    @GetMapping("/forum/{id}")
     public String forum(Model model, @PathVariable("id") int id) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         //Pageable pageable = new PageRequest(id, PAGE_SIZE);
@@ -45,18 +47,57 @@ public class ThemeController {
         return "forum";
     }
 
-    @RequestMapping(value = "/createTheme", method = RequestMethod.GET)
+    @GetMapping("/createTheme")
     public String pageCreateTheme(Model model) {
         model.addAttribute("themeForm", new Theme());
         return "createUpdateTheme";
     }
 
-    @RequestMapping(value = "/createTheme", method = RequestMethod.POST)
+    @PostMapping("/createTheme")
     public String addTheme(@ModelAttribute("themeForm") Theme themeForm) {
-        if (themeForm.getId() == 0) {
-            themeForm.setLastPostDate(new Date());
+        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        System.out.println(userRole);
+        //  if (userRole.equals ("[ROLE_ADMIN]")) {
+        // if (themeForm.getId() == 0) {
+        themeForm.setLastPostDate(new Date());
+        themeService.save(themeForm);
+        //}
+        //  }
+        return "redirect:/forum/0";
+    }
+
+
+    //БЛОК УДАЛЕНИЯ
+    @GetMapping("/deleteTheme{id}")
+    public String deleteTheme(@PathVariable("id") int id) {
+        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (userRole.equals("[ROLE_ADMIN]")) {
+            themeService.delete(id);
+        }
+        return "redirect:/forum/0";
+    }
+
+
+
+
+    //БЛОК РЕДАКТИРОВАНИЯ
+    @GetMapping("/updateTheme{id}")
+    public String updateTheme(@PathVariable("id") int id, Model model) {
+        model.addAttribute("themeForm", themeService.findOne(id));
+        List<Theme> allInstanceTheme = themeService.getAllThemes();
+        model.addAttribute("allInstanceTheme", allInstanceTheme);
+        return "createUpdateTheme";
+    }
+
+    @PostMapping("/updateTheme{id}")
+    public String updateTheme(@PathVariable("id") int id,
+                              @ModelAttribute("themeForm") Theme themeForm) {
+        themeForm.setLastPostDate(themeService.findOne(id).getLastPostDate());
+        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (userRole.equals("[ROLE_ADMIN]")) {
             themeService.save(themeForm);
         }
+
         return "redirect:/forum/0";
     }
 

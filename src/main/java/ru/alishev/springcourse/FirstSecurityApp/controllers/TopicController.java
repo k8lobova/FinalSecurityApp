@@ -43,7 +43,7 @@ public class TopicController {
     }
 
     //ГЛАВНАЯ
-    @RequestMapping(value = "topic{id}/{idPage}", method = RequestMethod.GET)
+    @RequestMapping(value = "topic/{id}/{idPage}", method = RequestMethod.GET)
     public String topicPage(Model model, HttpServletRequest request,
                             @PathVariable("id") int topicId,
                             @PathVariable("idPage") int idPage) {
@@ -52,7 +52,7 @@ public class TopicController {
         Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
         Theme theme = themeService.findOne(thisURL(request));
-        Page allInstanceTopic = topicService.findAll(pageable, theme.getId());
+        Page allInstanceTopic = topicService.findAll(pageable,theme.getId());
 
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
         model.addAttribute("userRole", userRole);

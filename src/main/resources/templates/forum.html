@@ -30,7 +30,7 @@
 <!--                <span class="icon-bar"></span>-->
 <!--                <span class="icon-bar"></span>-->
 <!--            </button>-->
-            <a class="navbar-brand" th:href="@{/forum}">Main Page</a>
+            <a class="navbar-brand" th:href="@{/forum/0}">Main Page</a>
 
         </div>
         <ul class="nav navbar-nav navbar-right">
@@ -76,13 +76,13 @@
         </thead>
         <tbody th:each="theme : ${allInstanceTheme}">
         <tr>
-            <td><a th:href="@{/topic/{id}/0(id=${theme.id})}" th:text="${theme.themeName}">Forum Title</a></td>
+            <td><a th:href="@{/topic/{id}(id=${theme.id})}" th:text="${theme.themeName}">Forum Title</a></td>
             <td th:text="${theme.lastPostDate}">Last post data</td>
             <td th:text="${theme.description}">Description</td>
             <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                 <td>
-                    <a th:href="@{/deleteTheme/{id}(id=${theme.id})}" class="pull-left btn btn-danger">Delete</a>
-                    <a th:href="@{/updateTheme/{id}(id=${theme.id})}" class="pull-left btn btn-primary">Update</a>
+                    <a th:href="@{/deleteTheme{id}(id=${theme.id})}" class="pull-left btn btn-danger">Delete</a>
+                    <a th:href="@{/updateTheme{id}(id=${theme.id})}" class="pull-left btn btn-primary">Update</a>
                 </td>
             </th:block>
         </tr>

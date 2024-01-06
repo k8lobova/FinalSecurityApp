@@ -62,5 +62,11 @@ public class ThemeService {
     }
 
 
+
+    public List<Theme> getAllThemes() {
+        return themeRepository.findAll ();
+    }
+
+
 }
 

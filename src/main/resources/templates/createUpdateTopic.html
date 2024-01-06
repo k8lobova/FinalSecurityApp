@@ -67,7 +67,7 @@
     </div>
     <br>
     <br>
-    <form th:action="@{/your-submit-endpoint}" method="POST" th:object="${topicForm}" class="form-signin">
+    <form method="POST" th:object="${topicForm}" class="form-signin">
         <div class="message_write">
             <input type="text" th:field="*{topicName}" class="form-control" placeholder="The title of the topic" autofocus="true" />
             <br />

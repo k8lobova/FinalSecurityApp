@@ -14,13 +14,11 @@ import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
  */
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Integer> {
-
     //    @Query("select u from Topic u where u.themeId = :themeId order by u.lastPostDate desc")
-    //    Page<Topic> findAll(Pageable pageable, @Param ("themeId") int themeId);
 
     //Page<Topic> findAll(Pageable pageable, @Param("themeId") int themeId);  23.00 28.12
 
-    Page<Topic> findByThemeId(Pageable pageable, int themeId);
+    //Page<Topic> findByThemeId(Pageable pageable, int themeId);
 
 
     //Optional<Person> findByUsername(String username);
