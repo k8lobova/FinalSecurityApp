@@ -96,10 +96,10 @@ public class MessageController {
         topic.setTopicName(topicService.findOne(id).getTopicName());
         topicService.save(topic);
 
-        theme.setId(themeService.findOne(topicService.findOne(id).getThemeId()).getId());
-        theme.setDescription(themeService.findOne(topicService.findOne(id).getThemeId()).getDescription());
+        theme.setId(themeService.findById(topicService.findOne(id).getThemeId()).getId());
+        theme.setDescription(themeService.findById(topicService.findOne(id).getThemeId()).getDescription());
         theme.setLastPostDate(date);
-        theme.setThemeName(themeService.findOne(topicService.findOne(id).getThemeId()).getThemeName());
+        theme.setThemeName(themeService.findById(topicService.findOne(id).getThemeId()).getThemeName());
         themeService.save(theme);
     }
 }

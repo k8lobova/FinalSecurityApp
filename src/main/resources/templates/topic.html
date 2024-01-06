@@ -79,8 +79,8 @@
             <td th:text="${topic.description}"></td>
             <td th:text="${topic.lastPostDate}"></td>
             <td th:if="${topic.username == username || userRole == '[ROLE_ADMIN]'}">
-                <a th:href="@{/deleteTopic/${topic.id}}" class="pull-left btn btn-danger">Delete</a>
-                <a th:href="@{/updateTopic/${topic.id}}" class="pull-left btn btn-primary">Update</a>
+                <a th:href="@{/deleteTopic/{id}(id=${topic.id})}" class="pull-left btn btn-danger">Delete</a>
+                <a th:href="@{/updateTopic/{id}(id=${topic.id})}" class="pull-left btn btn-primary">Update</a>
             </td>
         </tr>
         </tbody>
@@ -88,23 +88,23 @@
 </th:block>
 <!-- ТАБЛИЦА С ТОПИКАМИ - КОНЕЦ -->
 
-<!-- ПАДЖИНАЦИЯ -->
-<th:block th:if="${sizePage > 1}">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            <li class="page-item" th:if="${idPage - 1 >= 0}">
-                <a class="page-link" th:href="@{/topic${topicId}/${idPage - 1}}">Previous</a>
-            </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, sizePage - 1)}">
-                <a class="page-link" th:href="@{/topic${topicId}/${i}}" th:text="${i+1}"></a>
-            </li>
-            <li class="page-item" th:if="${idPage + 1 <= sizePage}">
-                <a class="page-link" th:href="@{/topic${topicId}/${idPage+1}}">Next</a>
-            </li>
-        </ul>
-    </nav>
-</th:block>
-<!-- ПАДЖИНАЦИЯ - КОНЕЦ -->
+<!--&lt;!&ndash; ПАДЖИНАЦИЯ &ndash;&gt;-->
+<!--<th:block th:if="${sizePage > 1}">-->
+<!--    <nav aria-label="Page navigation example">-->
+<!--        <ul class="pagination justify-content-end">-->
+<!--            <li class="page-item" th:if="${idPage - 1 >= 0}">-->
+<!--                <a class="page-link" th:href="@{/topic${topicId}/${idPage - 1}}">Previous</a>-->
+<!--            </li>-->
+<!--            <li class="page-item" th:each="i : ${#numbers.sequence(0, sizePage - 1)}">-->
+<!--                <a class="page-link" th:href="@{/topic${topicId}/${i}}" th:text="${i+1}"></a>-->
+<!--            </li>-->
+<!--            <li class="page-item" th:if="${idPage + 1 <= sizePage}">-->
+<!--                <a class="page-link" th:href="@{/topic${topicId}/${idPage+1}}">Next</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+<!--</th:block>-->
+<!--&lt;!&ndash; ПАДЖИНАЦИЯ - КОНЕЦ &ndash;&gt;-->
 
 <br>
 <br>
