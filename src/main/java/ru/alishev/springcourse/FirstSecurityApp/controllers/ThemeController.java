@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
-//@SuppressWarnings("SpringMVCViewInspection")
+@SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class ThemeController {
     private final PersonDetailsService peopleService;
@@ -117,6 +117,8 @@ public class ThemeController {
 //        themeService.save(theme);
 //        return "redirect:/forum";
 //    }
+
+
 
 
 }
