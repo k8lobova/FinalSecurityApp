@@ -14,7 +14,7 @@ public class Topic implements Comparable<Topic> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "username")//знаем создателя топика
     private String username;

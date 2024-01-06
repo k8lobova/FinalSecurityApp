@@ -11,7 +11,7 @@ public class Message {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "message")
     private String message;
@@ -22,7 +22,7 @@ public class Message {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "topicId")
+    @Column(name = "topic_id")
     private int topicId;
 
     public Message() {

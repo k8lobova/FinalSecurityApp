@@ -53,8 +53,6 @@ public class TopicController {
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
         Theme theme = themeService.findById(thisURL(request));
         Page allInstanceTopic = topicService.findAllTopicsByThemeId(pageable, theme.getId());
-        System.out.println(theme.getId());
-
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
         model.addAttribute("userRole", userRole);
         model.addAttribute("username", username);
@@ -91,7 +89,7 @@ public class TopicController {
     @RequestMapping(value = "/deleteTopic/{id}", method = RequestMethod.GET)
     public String deleteTopic(@PathVariable("id") int id, HttpServletRequest request) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        if (topicService.findOne(id).getUsername().equals(
+        if (topicService.findById(id).getUsername().equals(
                 SecurityContextHolder.getContext().getAuthentication().getName())
                 || userRole.equals("[ROLE_ADMIN]")) {
             topicService.delete(id);
@@ -104,7 +102,7 @@ public class TopicController {
 
     @RequestMapping(value = "/updateTopic/{id}", method = RequestMethod.GET)
     public String updateTopic(@PathVariable("id") int id, Model model, HttpServletRequest request) {
-        model.addAttribute("topicForm", topicService.findOne(id));
+        model.addAttribute("topicForm", topicService.findById(id));
         List<Topic> allInstanceTopic = topicService.getAllTopic();
         model.addAttribute("allInstanceTopic", allInstanceTopic);
         url = postURL(request);
@@ -114,9 +112,9 @@ public class TopicController {
     @RequestMapping(value = "/updateTopic/{id}", method = RequestMethod.POST)
     public String updateTopic(@PathVariable("id") int id,
                               @ModelAttribute("topicForm") Topic topicForm) {
-        topicForm.setLastPostDate(topicService.findOne(id).getLastPostDate());
-        topicForm.setUsername(topicService.findOne(id).getUsername());
-        topicForm.setThemeId(topicService.findOne(id).getThemeId());
+        topicForm.setLastPostDate(topicService.findById(id).getLastPostDate());
+        topicForm.setUsername(topicService.findById(id).getUsername());
+        topicForm.setThemeId(topicService.findById(id).getThemeId());
         topicService.save(topicForm);
 
         return "redirect:/topic" + url + "/0";
