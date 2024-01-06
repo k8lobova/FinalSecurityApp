@@ -14,7 +14,7 @@ import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
 public interface ThemeRepository extends JpaRepository<Theme, Integer> {
     //    @Query("select t from Theme t order by t.lastPostDate desc")
     //    Page<Theme> findAll(Pageable pageable);
-    //Page<Theme> findAll(Pageable pageable);
+    Page<Theme> findAll(Pageable pageable);
 
     //Optional<Person> findByUsername(String username);
 }

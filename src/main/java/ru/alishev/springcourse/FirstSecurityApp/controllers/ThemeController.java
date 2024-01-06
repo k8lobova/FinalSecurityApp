@@ -32,32 +32,32 @@ public class ThemeController {
 
     @RequestMapping(value = {"/forum/{id}"}, method = RequestMethod.GET)
     public String forum(Model model, @PathVariable("id") int id) {
-        String userRole = SecurityContextHolder.getContext ().getAuthentication ().getAuthorities ().toString ();
+        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         //Pageable pageable = new PageRequest(id, PAGE_SIZE);
         //Pageable pageable = PageRequest.of(id, PAGE_SIZE, Sort.by("lastPostDate").descending());
         Pageable pageable = PageRequest.of(id, PAGE_SIZE);
-        Page allInstanceTheme = themeService.findAll (pageable);
+        Page allInstanceTheme = themeService.findAll(pageable);
 
-        model.addAttribute ("userRole", userRole);
-        model.addAttribute ("sizePage", allInstanceTheme.getTotalPages ());
-        model.addAttribute ("allInstanceTheme", allInstanceTheme.getContent ());
-        model.addAttribute ("forumId", id);
+        model.addAttribute("userRole", userRole);
+        model.addAttribute("sizePage", allInstanceTheme.getTotalPages());
+        model.addAttribute("allInstanceTheme", allInstanceTheme.getContent());
+        model.addAttribute("forumId", id);
         return "forum";
     }
 
     @RequestMapping(value = "/createTheme", method = RequestMethod.GET)
     public String pageCreateTheme(Model model) {
-        model.addAttribute ("themeForm", new Theme ());
+        model.addAttribute("themeForm", new Theme());
         return "createUpdateTheme";
     }
 
     @RequestMapping(value = "/createTheme", method = RequestMethod.POST)
     public String addTheme(@ModelAttribute("themeForm") Theme themeForm) {
-        if (themeForm.getId () == 0) {
-            themeForm.setLastPostDate (new Date ());
-            themeService.save (themeForm);
+        if (themeForm.getId() == 0) {
+            themeForm.setLastPostDate(new Date());
+            themeService.save(themeForm);
         }
-        return "redirect:/forum";
+        return "redirect:/forum/0";
     }
 
 //    @GetMapping("/new")
@@ -76,8 +76,6 @@ public class ThemeController {
 //        themeService.save(theme);
 //        return "redirect:/forum";
 //    }
-
-
 
 
 }
