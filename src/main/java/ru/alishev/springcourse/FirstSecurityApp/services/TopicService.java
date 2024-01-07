@@ -40,7 +40,7 @@ public class TopicService {
         topicRepository.deleteById(id);
     }
 
-    public Topic findOne(int id) {
+    public Topic findById(int id) {
         Optional<Topic> foundTopic = topicRepository.findById(id);
         return foundTopic.orElse(null);
     }

@@ -22,7 +22,7 @@ public class Message {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "topicId")
+    @Column(name = "topic_id")
     private int topicId;
 
     public Message() {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.FirstSecurityApp.models.Message;
+import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
 import ru.alishev.springcourse.FirstSecurityApp.repositories.MessageRepository;
 import ru.alishev.springcourse.FirstSecurityApp.repositories.PeopleRepository;
 
@@ -31,11 +32,10 @@ public class MessageService {
         messageRepository.deleteById(id);
     }
 
-    public Message findOne(int id) {
+    public Message findById(int id) {
         Optional<Message> foundMessage = messageRepository.findById(id);
         return foundMessage.orElse(null);
     }
-
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
     }

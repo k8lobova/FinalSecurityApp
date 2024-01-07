@@ -8,13 +8,12 @@
     <meta name="author" content="">
 
     <title>Forum</title>
-
-    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
 </head>
 <body>
 
@@ -75,7 +74,7 @@
         <tbody>
         <tr th:each="topic : ${allInstanceTopic}" th:if="${topic.themeId == themeForm.id}">
             <td th:text="${topic.username}"></td>
-            <td><a th:href="@{/message/${topic.id}}" th:text="${topic.topicName}"></a></td>
+            <td><a th:href="@{/message/{id}(id=${topic.id})}" th:text="${topic.topicName}"></a></td>
             <td th:text="${topic.description}"></td>
             <td th:text="${topic.lastPostDate}"></td>
             <td th:if="${topic.username == username || userRole == '[ROLE_ADMIN]'}">
@@ -118,6 +117,7 @@
 
 <!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link href="js/bootstrap.min.js" rel="stylesheet">
 </body>
 </html>

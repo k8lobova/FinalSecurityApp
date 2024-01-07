@@ -46,7 +46,7 @@ public class MessageController {
         model.addAttribute("userRole", userRole);
         model.addAttribute("username", username);
         model.addAttribute("allInstanceMessages", allInstanceMessages);
-        model.addAttribute("topicForm", topicService.findOne(id));
+        model.addAttribute("topicForm", topicService.findById(id));
         model.addAttribute("messageForm", new Message());//отправляем в конструктор
         this.id = id;
         return "message";
@@ -74,12 +74,15 @@ public class MessageController {
     //БЛОК УДАЛЕНИЯ
     @RequestMapping(value = "/deleteMessage/{id}", method = RequestMethod.GET)
     public String deleteMessage(@PathVariable("id") int id, Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        if (messageService.findOne(id).getUsername().equals
-                (SecurityContextHolder.getContext().getAuthentication().getName())
-                || userRole.equals("[ROLE_ADMIN]")) {
-            messageService.delete(id);
-        }
+        System.out.println(topicService.findById(id));
+        System.out.println(messageService.findById(id));
+//        if (messageService.findById(id).getUsername().equals
+//                (SecurityContextHolder.getContext().getAuthentication().getName())
+//                || userRole.equals("[ROLE_ADMIN]")) {
+//            messageService.delete(id);
+//        }
         return "redirect:/message/" + this.id;
     }
 
@@ -88,18 +91,18 @@ public class MessageController {
         Topic topic = new Topic();
         Theme theme = new Theme();
 
-        topic.setId(topicService.findOne(id).getId());
-        topic.setThemeId(topicService.findOne(id).getThemeId());
-        topic.setUsername(topicService.findOne(id).getUsername());
-        topic.setDescription(topicService.findOne(id).getDescription());
+        topic.setId(topicService.findById(id).getId());
+        topic.setThemeId(topicService.findById(id).getThemeId());
+        topic.setUsername(topicService.findById(id).getUsername());
+        topic.setDescription(topicService.findById(id).getDescription());
         topic.setLastPostDate(date);
-        topic.setTopicName(topicService.findOne(id).getTopicName());
+        topic.setTopicName(topicService.findById(id).getTopicName());
         topicService.save(topic);
 
-        theme.setId(themeService.findById(topicService.findOne(id).getThemeId()).getId());
-        theme.setDescription(themeService.findById(topicService.findOne(id).getThemeId()).getDescription());
+        theme.setId(themeService.findById(topicService.findById(id).getThemeId()).getId());
+        theme.setDescription(themeService.findById(topicService.findById(id).getThemeId()).getDescription());
         theme.setLastPostDate(date);
-        theme.setThemeName(themeService.findById(topicService.findOne(id).getThemeId()).getThemeName());
+        theme.setThemeName(themeService.findById(topicService.findById(id).getThemeId()).getThemeName());
         themeService.save(theme);
     }
 }
