@@ -1,6 +1,8 @@
 package ru.alishev.springcourse.FirstSecurityApp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.FirstSecurityApp.models.Message;
@@ -44,5 +46,7 @@ public class MessageService {
     public Message findMessageByTopicId(int topicId) {
         return messageRepository.findByTopicId(topicId);
     }
+
+
 
 }

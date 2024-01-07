@@ -18,4 +18,5 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, Integer> {
 
     Message findByTopicId(int topicId);
+
 }

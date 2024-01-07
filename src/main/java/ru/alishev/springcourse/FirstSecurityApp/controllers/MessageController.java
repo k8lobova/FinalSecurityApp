@@ -37,7 +37,7 @@ public class MessageController {
     private int id;
     private Date date;
 
-    @RequestMapping(value = "message/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "message/topic/{id}", method = RequestMethod.GET)
     public String welcome(@PathVariable("id") int id, Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
@@ -67,7 +67,7 @@ public class MessageController {
             messageForm.setTopicId(id);
             messageService.save(messageForm);
         }
-        return "redirect:/message/" + id;
+        return "redirect:/message/topic/" + id;
     }
 
     //БЛОК УДАЛЕНИЯ
@@ -75,13 +75,11 @@ public class MessageController {
     public String deleteMessage(@PathVariable("id") int id, Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        System.out.println("tooopik" + topicService.findById(id));
-        System.out.println("message" + messageService.findMessageByTopicId(id));
-//        if (messageService.findById(id).getUsername().equals
-//                (username || userRole.equals("[ROLE_ADMIN]")) {
-//            messageService.delete(id);
-//        }
-        return "redirect:/message/" + this.id;
+        if (messageService.findById(id).getUsername().equals
+                (username) || userRole.equals("[ROLE_ADMIN]")) {
+            messageService.delete(id);
+        }
+        return "redirect:/message/topic/" + this.id;
     }
 
     //Этот метод нужен, что-бы обновить данные в нашей БД, а именно время посл. сообщения

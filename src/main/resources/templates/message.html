@@ -84,7 +84,7 @@
                                     </div>
                                     <!-- Удалять можно только свои сообщения, PS в контроллере тоже есть проверка -->
                                     <a th:if="${mes.username == username || userRole == '[ROLE_ADMIN]'}"
-                                       th:href="@{/deleteMessage/{id}(id=${topicForm.id})}" class="pull-right">Delete</a>
+                                       th:href="@{/deleteMessage/{id}(id=${mes.id})}" class="pull-right">Delete</a>
                                 </div>
                             </li>
                         </ul>

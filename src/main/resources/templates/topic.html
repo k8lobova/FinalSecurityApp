@@ -75,7 +75,7 @@
         <tbody>
         <tr th:each="topic : ${allInstanceTopic}" th:if="${topic.themeId == themeForm.id}">
             <td th:text="${topic.username}"></td>
-            <td><a th:href="@{/message/{id}(id=${topic.id})}" th:text="${topic.topicName}"></a></td>
+            <td><a th:href="@{/message/topic/{id}(id=${topic.id})}" th:text="${topic.topicName}"></a></td>
             <td th:text="${topic.description}"></td>
             <td th:text="${topic.lastPostDate}"></td>
             <td th:if="${topic.username == username || userRole == '[ROLE_ADMIN]'}">
