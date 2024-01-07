@@ -35,7 +35,7 @@
         <ul class="nav navbar-nav navbar-right">
             <!-- Тут мы проверяем есть ли есть ли пользователь и обнуляем действующую активность. Т.е. logout -->
             <form id="logoutForm" method="POST" th:action="@{/logout}">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+<!--                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
                 <a onclick="document.getElementById('logoutForm').submit(); return false;" type="submit">Log out</a>
             </form>
         </ul>
