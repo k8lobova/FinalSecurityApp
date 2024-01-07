@@ -78,11 +78,11 @@ public class MessageController {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         System.out.println(topicService.findById(id));
         System.out.println(messageService.findById(id));
-//        if (messageService.findById(id).getUsername().equals
-//                (SecurityContextHolder.getContext().getAuthentication().getName())
-//                || userRole.equals("[ROLE_ADMIN]")) {
-//            messageService.delete(id);
-//        }
+        if (messageService.findById(id).getUsername().equals
+                (SecurityContextHolder.getContext().getAuthentication().getName())
+                || userRole.equals("[ROLE_ADMIN]")) {
+            messageService.delete(id);
+        }
         return "redirect:/message/" + this.id;
     }
 

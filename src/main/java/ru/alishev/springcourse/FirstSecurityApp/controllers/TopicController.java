@@ -1,7 +1,9 @@
 package ru.alishev.springcourse.FirstSecurityApp.controllers;
 
+import org.springframework.data.domain.Sort;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
 import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
+import ru.alishev.springcourse.FirstSecurityApp.services.MessageService;
 import ru.alishev.springcourse.FirstSecurityApp.services.ThemeService;
 import ru.alishev.springcourse.FirstSecurityApp.services.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +37,13 @@ public class TopicController {
     private final TopicService topicService;
 
     private final ThemeService themeService;
+    private final MessageService messageService;
 
     @Autowired
-    public TopicController(TopicService topicService, ThemeService themeService) {
+    public TopicController(TopicService topicService, ThemeService themeService, MessageService messageService) {
         this.topicService = topicService;
         this.themeService = themeService;
+        this.messageService = messageService;
     }
 
     //ГЛАВНАЯ
@@ -49,8 +53,9 @@ public class TopicController {
                             @PathVariable("idPage") int idPage) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
+        //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(id, PAGE_SIZE, Sort.by("lastPostDate").descending());
         Theme theme = themeService.findById(thisURL(request));
         Page allInstanceTopic = topicService.findAllTopicsByThemeId(pageable, theme.getId());
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
@@ -93,6 +98,7 @@ public class TopicController {
                 SecurityContextHolder.getContext().getAuthentication().getName())
                 || userRole.equals("[ROLE_ADMIN]")) {
             topicService.delete(id);
+            //messageService.delete(messageService.findMessageByTopicId(id).getId());
         }
         return "redirect:/topic" + postURL(request) + "/0";
     }

@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
+import ru.alishev.springcourse.FirstSecurityApp.services.MessageService;
 import ru.alishev.springcourse.FirstSecurityApp.services.ThemeService;
 import ru.alishev.springcourse.FirstSecurityApp.services.PersonDetailsService;
+import ru.alishev.springcourse.FirstSecurityApp.services.TopicService;
 
 import static ru.alishev.springcourse.FirstSecurityApp.controllers.Constant.PAGE_SIZE;
 
@@ -25,19 +27,21 @@ import java.util.List;
 public class ThemeController {
     private final PersonDetailsService peopleService;
     private final ThemeService themeService;
+    private final TopicService topicService;
 
     @Autowired
-    public ThemeController(PersonDetailsService peopleService, ThemeService themeService) {
+    public ThemeController(PersonDetailsService peopleService, ThemeService themeService, TopicService topicService) {
         this.peopleService = peopleService;
         this.themeService = themeService;
+        this.topicService = topicService;
     }
 
     @GetMapping("/forum/{id}")
     public String forum(Model model, @PathVariable("id") int id) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         //Pageable pageable = new PageRequest(id, PAGE_SIZE);
-        //Pageable pageable = PageRequest.of(id, PAGE_SIZE, Sort.by("lastPostDate").descending());
-        Pageable pageable = PageRequest.of(id, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(id, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        //Pageable pageable = PageRequest.of(id, PAGE_SIZE);
         Page allInstanceTheme = themeService.findAll(pageable);
 
         model.addAttribute("userRole", userRole);
@@ -73,6 +77,7 @@ public class ThemeController {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if (userRole.equals("[ROLE_ADMIN]")) {
             themeService.delete(id);
+            topicService.delete(topicService.findTopicByThemeId(id).getId());
         }
         return "redirect:/forum/0";
     }
