@@ -53,12 +53,10 @@
 </nav>
 <!-- НАВИГАЦИОННЫЙ БАР, ШТОРКА - КОНЕЦ -->
 <br>
-<br>
-<br>
 
 <h2 class="form-heading text-center" th:text="${themeForm.themeName}"></h2>
+<h5 class="form-heading" align="center"> Total Number of Topics: <span th:text="${totalTopicCount}"></span></h5>
 
-<br>
 <br>
 <!-- ТАБЛИЦА С ТОПИКАМИ -->
 <th:block th:if="${not #lists.isEmpty(allInstanceTopic)}">
@@ -135,8 +133,6 @@
 </th:block>
 <!-- ПАДЖИНАЦИЯ - КОНЕЦ -->
 
-<br>
-<br>
 <br>
 
 <h4 class="text-center"><a th:href="@{/createTopic}">Create a new topic</a></h4>

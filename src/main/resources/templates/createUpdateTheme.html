@@ -56,12 +56,12 @@
 
 <!-- ФОРМА ВВОДА НАЗВАНИЯ И ОПИСАНИЯ НОВОЙ ТЕМЫ -->
 <div class="container">
-<!--    <th:block th:if="${themeForm.themeName != null}">-->
-<!--        <h2 class="form-heading" align="center">Update theme</h2>-->
-<!--    </th:block>-->
-<!--    <th:block th:if="${themeForm.themeName == null}">-->
-<!--        <h2 class="form-heading" align="center">Create new theme</h2>-->
-<!--    </th:block>-->
+    <th:block th:if="${themeForm.themeName != null}">
+        <h2 class="form-heading" align="center">Update theme</h2>
+    </th:block>
+    <th:block th:if="${themeForm.themeName == null}">
+        <h2 class="form-heading" align="center">Create new theme</h2>
+    </th:block>
     <br><br>
     <form th:method="POST" th:object="${themeForm}" class="form-signin">
         <div class="message_write">

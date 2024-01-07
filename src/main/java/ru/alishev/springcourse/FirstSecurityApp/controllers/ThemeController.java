@@ -47,6 +47,7 @@ public class ThemeController {
         model.addAttribute("userRole", userRole);
         model.addAttribute("sizePage", allInstanceTheme.getTotalPages());
         model.addAttribute("allInstanceTheme", allInstanceTheme.getContent());
+        model.addAttribute("totalThemeCount", allInstanceTheme.getTotalElements());
         model.addAttribute("forumId", id);
         return "forum";
     }

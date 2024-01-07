@@ -62,8 +62,6 @@ public class ThemeService {
         return themeRepository.findAll(pageable);
     }
 
-
-
     public List<Theme> getAllThemes() {
         return themeRepository.findAll ();
     }

@@ -50,7 +50,7 @@ public class TopicService {
     }
 
     public Topic findTopicByThemeId(int themeId) {
-        return topicRepository.findByThemeId(themeId);
+        return topicRepository.findByThemeId(themeId);   //в этой строчке ошибка
     }
     public Page<Topic> findAllTopicsByThemeId(Pageable pageable, int themeId) {
         return topicRepository.findAllByThemeId(pageable, Math.toIntExact(themeId));

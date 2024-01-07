@@ -53,12 +53,10 @@
 </nav>
 <!-- НАВИГАЦИОННЫЙ БАР, ШТОРКА - КОНЕЦ -->
 <br>
-<br>
-<br>
 
 <h2 class="form-heading" align="center">FORUM</h2>
+<h5 class="form-heading" align="center"> Total Number of Themes: <span th:text="${totalThemeCount}"></span></h5>
 
-<br>
 <br>
 <!-- ТАБЛИЦА С ТЕМАМИ ФОРУМА -->
 <th:block th:if="${#lists.isEmpty(allInstanceTheme) == false}">
@@ -120,8 +118,6 @@
 <!-- ПАДЖИНАЦИЯ - КОНЕЦ -->
 
 
-<br>
-<br>
 <br>
 
 <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
