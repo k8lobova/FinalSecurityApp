@@ -14,7 +14,7 @@ public class Theme implements Comparable<Theme>{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(name = "theme_name")
     private String themeName;
