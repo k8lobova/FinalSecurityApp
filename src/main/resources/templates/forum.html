@@ -94,13 +94,17 @@
 <th:block th:if="${sizePage > 1}">
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
-            <li class="page-item" th:if="${forumId - 1 >= 0}">
+            <li class="page-item" th:if="${forumId > 1}">
                 <a class="page-link" th:href="@{'/forum/' + ${forumId - 1}}">Previous</a>
             </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, sizePage - 1)}" >
-                <a class="page-link" th:href="@{'/forum/' + ${i}}" th:text="${i + 1}"></a>
-            </li>
-            <li class="page-item" th:if="${forumId + 1 < sizePage}">
+            <div class="page-item" th:each="i : ${#numbers.sequence(1, sizePage)}" >
+
+                <li class="page-item" th:if="${i == 1 or i == sizePage or i == forumId - 1 or i == forumId or i == forumId + 1}">
+                    <a class="page-link" th:href="@{'/forum/' + ${i}}" th:text="${i}"></a>
+                </li>
+
+            </div>
+            <li class="page-item" th:if="${forumId < sizePage}">
                 <a class="page-link" th:href="@{'/forum/' + ${forumId + 1}}">Next</a>
             </li>
         </ul>

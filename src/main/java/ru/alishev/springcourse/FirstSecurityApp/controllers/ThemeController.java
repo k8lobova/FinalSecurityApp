@@ -40,7 +40,7 @@ public class ThemeController {
     public String forum(Model model, @PathVariable("id") int id) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         //Pageable pageable = new PageRequest(id, PAGE_SIZE);
-        Pageable pageable = PageRequest.of(id, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
         //Pageable pageable = PageRequest.of(id, PAGE_SIZE);
         Page allInstanceTheme = themeService.findAll(pageable);
 
@@ -60,13 +60,12 @@ public class ThemeController {
     @PostMapping("/createTheme")
     public String addTheme(@ModelAttribute("themeForm") Theme themeForm) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        System.out.println(userRole);
-        //  if (userRole.equals ("[ROLE_ADMIN]")) {
-        // if (themeForm.getId() == 0) {
-        themeForm.setLastPostDate(new Date());
-        themeService.save(themeForm);
-        //}
-        //  }
+        if (userRole.equals ("[ROLE_ADMIN]")) {
+            if (themeForm.getId() == 0) {
+                themeForm.setLastPostDate(new Date());
+                themeService.save(themeForm);
+            }
+        }
         return "redirect:/forum/1";
     }
 

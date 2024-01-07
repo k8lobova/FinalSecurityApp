@@ -55,7 +55,7 @@ public class TopicController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
-        Pageable pageable = PageRequest.of(idPage, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(idPage-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
         Theme theme = themeService.findById(thisURL(request));
         Page allInstanceTopic = topicService.findAllTopicsByThemeId(pageable, theme.getId());
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
@@ -98,7 +98,7 @@ public class TopicController {
                 SecurityContextHolder.getContext().getAuthentication().getName())
                 || userRole.equals("[ROLE_ADMIN]")) {
             topicService.delete(id);
-            //messageService.delete(messageService.findMessageByTopicId(id).getId());
+            messageService.delete(messageService.findMessageByTopicId(id).getId());
         }
         return "redirect:/topic/" + postURL(request) + "/1";
     }
