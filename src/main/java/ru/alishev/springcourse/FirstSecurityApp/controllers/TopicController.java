@@ -98,7 +98,8 @@ public class TopicController {
                 SecurityContextHolder.getContext().getAuthentication().getName())
                 || userRole.equals("[ROLE_ADMIN]")) {
             topicService.delete(id);
-            messageService.delete(messageService.findMessageByTopicId(id).getId());
+            if (messageService.findMessageByTopicId(id) != null)
+                messageService.delete(messageService.findMessageByTopicId(id).getId());
         }
         return "redirect:/topic/" + postURL(request) + "/1";
     }

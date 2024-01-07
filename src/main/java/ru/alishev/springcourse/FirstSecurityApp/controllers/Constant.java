@@ -5,6 +5,6 @@ package ru.alishev.springcourse.FirstSecurityApp.controllers;
  */
 public class Constant {
 
-    public static final int PAGE_SIZE = 1;
+    public static final int PAGE_SIZE = 5;
 
 }
