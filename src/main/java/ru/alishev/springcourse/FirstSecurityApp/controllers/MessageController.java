@@ -59,7 +59,6 @@ public class MessageController {
     @RequestMapping(value = "message", method = RequestMethod.POST)
     public String addMessage(@ModelAttribute("messageForm") Message messageForm, Model model) {
         if (messageForm.getId() == 0) {
-            //if(messageForm.getId() == null){  это я исправила
             messageForm.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             date = new Date();
             messageForm.setDate(date);
@@ -76,13 +75,12 @@ public class MessageController {
     public String deleteMessage(@PathVariable("id") int id, Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        System.out.println(topicService.findById(id));
-        System.out.println(messageService.findById(id));
-        if (messageService.findById(id).getUsername().equals
-                (SecurityContextHolder.getContext().getAuthentication().getName())
-                || userRole.equals("[ROLE_ADMIN]")) {
-            messageService.delete(id);
-        }
+        System.out.println("tooopik" + topicService.findById(id));
+        System.out.println("message" + messageService.findMessageByTopicId(id));
+//        if (messageService.findById(id).getUsername().equals
+//                (username || userRole.equals("[ROLE_ADMIN]")) {
+//            messageService.delete(id);
+//        }
         return "redirect:/message/" + this.id;
     }
 

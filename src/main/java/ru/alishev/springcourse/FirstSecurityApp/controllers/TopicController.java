@@ -47,7 +47,7 @@ public class TopicController {
     }
 
     //ГЛАВНАЯ
-    @RequestMapping(value = "topic{id}/{idPage}", method = RequestMethod.GET)
+    @RequestMapping(value = "topic/{id}/{idPage}", method = RequestMethod.GET)
     public String topicPage(Model model, HttpServletRequest request,
                             @PathVariable("id") int topicId,
                             @PathVariable("idPage") int idPage) {
@@ -55,7 +55,7 @@ public class TopicController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
-        Pageable pageable = PageRequest.of(id, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(idPage, PAGE_SIZE, Sort.by("lastPostDate").descending());
         Theme theme = themeService.findById(thisURL(request));
         Page allInstanceTopic = topicService.findAllTopicsByThemeId(pageable, theme.getId());
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
@@ -87,7 +87,7 @@ public class TopicController {
             topicForm.setLastPostDate(new Date());
             topicService.save(topicForm);
         }
-        return "redirect:/topic" + id + "/0";
+        return "redirect:/topic/" + id + "/0";
     }
 
     //БЛОК УДАЛЕНИЯ
@@ -100,7 +100,7 @@ public class TopicController {
             topicService.delete(id);
             //messageService.delete(messageService.findMessageByTopicId(id).getId());
         }
-        return "redirect:/topic" + postURL(request) + "/0";
+        return "redirect:/topic/" + postURL(request) + "/0";
     }
 
     //БЛОК РЕДАКТИРОВАНИЯ
@@ -123,18 +123,18 @@ public class TopicController {
         topicForm.setThemeId(topicService.findById(id).getThemeId());
         topicService.save(topicForm);
 
-        return "redirect:/topic" + url + "/0";
+        return "redirect:/topic/" + url + "/0";
     }
 
     private int postURL(HttpServletRequest request) {
         String url = request.getHeader("referer"); //URL предыдущая страница
-        url = url.split("topic")[1];
+        url = url.split("topic/")[1];
         return Integer.parseInt(url.split("/")[0]);
     }
 
     private int thisURL(HttpServletRequest request) {
         String url = request.getRequestURI();//URL текущая страница
-        url = url.split("topic")[1];
+        url = url.split("topic/")[1];
         return Integer.parseInt(url.split("/")[0]);
     }
 }

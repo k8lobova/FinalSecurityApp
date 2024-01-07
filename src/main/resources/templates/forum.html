@@ -75,7 +75,7 @@
         </thead>
         <tbody th:each="theme : ${allInstanceTheme}">
         <tr>
-            <td><a th:href="@{/topic{id}/0(id=${theme.id})}" th:text="${theme.themeName}">Forum Title</a></td>
+            <td><a th:href="@{/topic/{id}/0(id=${theme.id})}" th:text="${theme.themeName}">Forum Title</a></td>
             <td th:text="${theme.lastPostDate}">Last post data</td>
             <td th:text="${theme.description}">Description</td>
             <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
