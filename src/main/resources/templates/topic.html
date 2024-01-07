@@ -29,7 +29,7 @@
             <!--                <span class="icon-bar"></span>-->
             <!--                <span class="icon-bar"></span>-->
             <!--            </button>-->
-            <a class="navbar-brand" th:href="@{/forum/0}">Main Page</a>
+            <a class="navbar-brand" th:href="@{/forum/1}">Main Page</a>
 
         </div>
         <ul class="nav navbar-nav navbar-right">
@@ -88,23 +88,40 @@
 </th:block>
 <!-- ТАБЛИЦА С ТОПИКАМИ - КОНЕЦ -->
 
-<!--&lt;!&ndash; ПАДЖИНАЦИЯ &ndash;&gt;-->
+<!-- ПАДЖИНАЦИЯ -->
 <!--<th:block th:if="${sizePage > 1}">-->
 <!--    <nav aria-label="Page navigation example">-->
 <!--        <ul class="pagination justify-content-end">-->
 <!--            <li class="page-item" th:if="${idPage - 1 >= 0}">-->
-<!--                <a class="page-link" th:href="@{/topic${topicId}/${idPage - 1}}">Previous</a>-->
+<!--                <a class="page-link" th:href="@{/topic/{idT}/{idP}(idT=${topicId},idP=${idPage}-1)}">Previous</a>-->
 <!--            </li>-->
 <!--            <li class="page-item" th:each="i : ${#numbers.sequence(0, sizePage - 1)}">-->
-<!--                <a class="page-link" th:href="@{/topic${topicId}/${i}}" th:text="${i+1}"></a>-->
+<!--                <a class="page-link" th:href="@{/topic/{idT}/{idP}(idT=${topicId}, idP=${i})}" th:text="${i+1}"></a>-->
 <!--            </li>-->
-<!--            <li class="page-item" th:if="${idPage + 1 <= sizePage}">-->
-<!--                <a class="page-link" th:href="@{/topic${topicId}/${idPage+1}}">Next</a>-->
+<!--            <li class="page-item" th:if="${idPage + 1 < sizePage}">-->
+<!--                <a class="page-link" th:href="@{/topic/{idT}/{idP}(idT=${topicId},idP=${idPage}+1)}">Next</a>-->
 <!--            </li>-->
 <!--        </ul>-->
 <!--    </nav>-->
 <!--</th:block>-->
-<!--&lt;!&ndash; ПАДЖИНАЦИЯ - КОНЕЦ &ndash;&gt;-->
+
+
+<th:block th:if="${sizePage > 1}">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <li class="page-item" th:if="${idPage - 1 >= 0}">
+                <a class="page-link" th:href="@{'/topic/' + ${topicId} + '/' +  ${idPage - 1}}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, sizePage - 1)}">
+                <a class="page-link" th:href="@{'/topic/' + ${topicId} + '/' + ${i}}" th:text="${i+1}"></a>
+            </li>
+            <li class="page-item" th:if="${idPage + 1 < sizePage}">
+                <a class="page-link" th:href="@{'/topic/' + ${topicId} + '/' +  ${idPage + 1}}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+<!-- ПАДЖИНАЦИЯ - КОНЕЦ -->
 
 <br>
 <br>

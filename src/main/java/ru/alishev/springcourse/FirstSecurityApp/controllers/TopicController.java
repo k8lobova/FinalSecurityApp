@@ -87,7 +87,7 @@ public class TopicController {
             topicForm.setLastPostDate(new Date());
             topicService.save(topicForm);
         }
-        return "redirect:/topic/" + id + "/0";
+        return "redirect:/topic/" + id + "/1";
     }
 
     //БЛОК УДАЛЕНИЯ
@@ -100,7 +100,7 @@ public class TopicController {
             topicService.delete(id);
             //messageService.delete(messageService.findMessageByTopicId(id).getId());
         }
-        return "redirect:/topic/" + postURL(request) + "/0";
+        return "redirect:/topic/" + postURL(request) + "/1";
     }
 
     //БЛОК РЕДАКТИРОВАНИЯ
@@ -123,7 +123,7 @@ public class TopicController {
         topicForm.setThemeId(topicService.findById(id).getThemeId());
         topicService.save(topicForm);
 
-        return "redirect:/topic/" + url + "/0";
+        return "redirect:/topic/" + url + "/1";
     }
 
     private int postURL(HttpServletRequest request) {

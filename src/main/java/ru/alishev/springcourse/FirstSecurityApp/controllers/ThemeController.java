@@ -67,7 +67,7 @@ public class ThemeController {
         themeService.save(themeForm);
         //}
         //  }
-        return "redirect:/forum/0";
+        return "redirect:/forum/1";
     }
 
 
@@ -80,7 +80,7 @@ public class ThemeController {
             if (topicService.findTopicByThemeId(id) != null)
                 topicService.delete(topicService.findTopicByThemeId(id).getId());
         }
-        return "redirect:/forum/0";
+        return "redirect:/forum/1";
     }
 
 
@@ -104,7 +104,7 @@ public class ThemeController {
             themeService.save(themeForm);
         }
 
-        return "redirect:/forum/0";
+        return "redirect:/forum/1";
     }
 
 //    @GetMapping("/new")
