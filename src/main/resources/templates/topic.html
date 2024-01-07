@@ -112,9 +112,21 @@
             <li class="page-item" th:if="${idPage > 1}">
                 <a class="page-link" th:href="@{'/topic/' + ${topicId} + '/' +  ${idPage - 1}}">Previous</a>
             </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(1, sizePage)}">
-                <a class="page-link" th:href="@{'/topic/' + ${topicId} + '/' + ${i}}" th:text="${i}"></a>
-            </li>
+            <div class="page-item" th:each="i : ${#numbers.sequence(1, sizePage)}" >
+                <li class="page-item active" th:if="${idPage == i}" >
+                    <span class="page-link" th:text="${i}"></span>
+                </li>
+
+                <li class="page-item" th:unless="${idPage == i}" th:if="${i == 1 or i == sizePage or i == idPage - 1 or i == idPage or i == idPage + 1}" >
+                    <a class="page-link" th:href="@{'/topic/' + ${topicId} + '/' + ${i}}" th:text="${i}"></a>
+                </li>
+
+                <li class="page-item" th:unless="${i == 1 or i == sizePage or i == idPage - 1 or i == idPage or i == idPage + 1}">
+                    <span>...</span>
+                </li>
+
+
+            </div>
             <li class="page-item" th:if="${idPage < sizePage}">
                 <a class="page-link" th:href="@{'/topic/' + ${topicId} + '/' +  ${idPage + 1}}">Next</a>
             </li>
