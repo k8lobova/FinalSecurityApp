@@ -62,7 +62,7 @@ public class TopicController {
         model.addAttribute("userRole", userRole);
         model.addAttribute("username", username);
         model.addAttribute("allInstanceTopic", allInstanceTopic.getContent());
-        model.addAttribute("totalTopicCount", allInstanceTopic.getTotalPages());
+        model.addAttribute("totalTopicCount", allInstanceTopic.getTotalElements());
         model.addAttribute("themeForm", theme);//для названия в заголовке
         model.addAttribute("topicId", topicId);//для паджинации
         model.addAttribute("idPage", idPage);//для паджинации
