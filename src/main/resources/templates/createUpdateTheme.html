@@ -34,7 +34,7 @@
         <ul class="nav navbar-nav navbar-right">
             <!-- Тут мы проверяем есть ли есть ли пользователь и обнуляем действующую активность. Т.е. logout -->
             <form id="logoutForm" method="POST" th:action="@{/logout}">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+<!--                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
                 <a onclick="document.getElementById('logoutForm').submit(); return false;" type="submit">Log out</a>
             </form>
         </ul>
@@ -55,21 +55,23 @@
 
 <!-- ФОРМА ВВОДА НАЗВАНИЯ И ОПИСАНИЯ НОВОЙ ТЕМЫ -->
 <div class="container">
-    <th:block th:if="${themeForm.themeName != null}">
-        <h2 class="form-heading" align="center">Update theme</h2>
-    </th:block>
-    <th:block th:if="${themeForm.themeName == null}">
-        <h2 class="form-heading" align="center">Create new theme</h2>
-    </th:block>
+<!--    <th:block th:if="${themeForm.themeName != null}">-->
+<!--        <h2 class="form-heading" align="center">Update theme</h2>-->
+<!--    </th:block>-->
+<!--    <th:block th:if="${themeForm.themeName == null}">-->
+<!--        <h2 class="form-heading" align="center">Create new theme</h2>-->
+<!--    </th:block>-->
     <br><br>
-    <form method="POST" th:object="${themeForm}" class="form-signin">
+    <form th:method="POST" th:object="${themeForm}" class="form-signin">
         <div class="message_write">
             <input type="text" th:field="*{themeName}" class="form-control" placeholder="The title of the topic" autofocus="true"/>
+<!--            <div class="error" th:if="${#fields.hasErrors('themeName')}" th:errors="*{themeName}">Title error</div>-->
             <br>
             <textarea resize="none" th:field="*{description}" class="form-control" placeholder="Your description.."></textarea>
+<!--            <div class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Author error</div>-->
             <div class="clearfix"></div>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <input class="btn btn-lg btn-primary btn-block " type="submit" value="submit">
     </form>
 </div>
 <!-- ФОРМА ВВОДА НАЗВАНИЯ И ОПИСАНИЯ НОВОЙ ТЕМЫ  - КОНЕЦ -->
