@@ -37,7 +37,7 @@ public class MessageController {
     private int id;
     private Date date;
 
-    @RequestMapping(value = "message/topic/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "forum/theme/topic/{id}", method = RequestMethod.GET)
     public String welcome(@PathVariable("id") int id, Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
@@ -56,7 +56,7 @@ public class MessageController {
      * проверка на null (Long obj)
      * добавляем имя юзера
      * добавляем дату и сохраняем в бд*/
-    @RequestMapping(value = "message", method = RequestMethod.POST)
+    @RequestMapping(value = "/forum/theme/topic", method = RequestMethod.POST)
     public String addMessage(@ModelAttribute("messageForm") Message messageForm, Model model) {
         if (messageForm.getId() == 0) {
             messageForm.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -67,7 +67,7 @@ public class MessageController {
             messageForm.setTopicId(id);
             messageService.save(messageForm);
         }
-        return "redirect:/message/topic/" + id;
+        return "redirect:/forum/theme/topic/" + id;
     }
 
     //БЛОК УДАЛЕНИЯ
@@ -79,7 +79,7 @@ public class MessageController {
                 (username) || userRole.equals("[ROLE_ADMIN]")) {
             messageService.delete(id);
         }
-        return "redirect:/message/topic/" + this.id;
+        return "redirect:/forum/theme/topic/" + this.id;
     }
 
     //Этот метод нужен, что-бы обновить данные в нашей БД, а именно время посл. сообщения

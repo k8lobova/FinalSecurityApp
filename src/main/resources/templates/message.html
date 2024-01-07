@@ -94,14 +94,14 @@
                     <!-- Ввод сообщений в textatea и отправка формы на сервер
                     P.S. Форма отправляет данные на ту-же страницу на которой находимся,
                     ModelAttribyte должен быть прописан и в GET и в POST, что бы знать, куда отправлять и откуда брать -->
-                    <form th:action="@{/message}" method="POST" th:object="${messageForm}">
+                    <form th:action="@{/forum/theme/topic}" method="POST" th:object="${messageForm}">
                         <div class="message_write">
                             <textarea resize="none" th:field="*{message}" class="form-control"
                                       placeholder="Your message.."></textarea>
                             <div class="clearfix"></div>
                             <div class="chat_bottom">
                                 <button type="submit" class="pull-right btn btn-primary">Send</button>
-                                <a th:href="@{/message/{id}(id=${topicForm.id})}" class="pull-left btn btn-primary">Refresh</a>
+                                <a th:href="@{/forum/theme/topic/{id}(id=${topicForm.id})}" class="pull-left btn btn-primary">Refresh</a>
                             </div>
                         </div>
                     </form>

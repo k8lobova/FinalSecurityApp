@@ -47,7 +47,7 @@ public class TopicController {
     }
 
     //ГЛАВНАЯ
-    @RequestMapping(value = "topic/{id}/{idPage}", method = RequestMethod.GET)
+    @RequestMapping(value = "forum/theme/{id}/{idPage}", method = RequestMethod.GET)
     public String topicPage(Model model, HttpServletRequest request,
                             @PathVariable("id") int topicId,
                             @PathVariable("idPage") int idPage) {
@@ -88,7 +88,7 @@ public class TopicController {
             topicForm.setLastPostDate(new Date());
             topicService.save(topicForm);
         }
-        return "redirect:/topic/" + id + "/1";
+        return "redirect:/forum/theme/" + id + "/1";
     }
 
     //БЛОК УДАЛЕНИЯ
@@ -102,7 +102,7 @@ public class TopicController {
             if (messageService.findMessageByTopicId(id) != null)
                 messageService.delete(messageService.findMessageByTopicId(id).getId());
         }
-        return "redirect:/topic/" + postURL(request) + "/1";
+        return "redirect:/forum/theme/" + postURL(request) + "/1";
     }
 
     //БЛОК РЕДАКТИРОВАНИЯ
@@ -125,18 +125,18 @@ public class TopicController {
         topicForm.setThemeId(topicService.findById(id).getThemeId());
         topicService.save(topicForm);
 
-        return "redirect:/topic/" + url + "/1";
+        return "redirect:/forum/theme/" + url + "/1";
     }
 
     private int postURL(HttpServletRequest request) {
         String url = request.getHeader("referer"); //URL предыдущая страница
-        url = url.split("topic/")[1];
+        url = url.split("/forum/theme/")[1];
         return Integer.parseInt(url.split("/")[0]);
     }
 
     private int thisURL(HttpServletRequest request) {
         String url = request.getRequestURI();//URL текущая страница
-        url = url.split("topic/")[1];
+        url = url.split("/forum/theme/")[1];
         return Integer.parseInt(url.split("/")[0]);
     }
 }
