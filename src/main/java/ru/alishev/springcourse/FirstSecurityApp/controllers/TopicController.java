@@ -47,12 +47,14 @@ public class TopicController {
     @RequestMapping(value = "forum/theme/{id}/{idPage}", method = RequestMethod.GET)
     public String topicPage(Model model, HttpServletRequest request,
                             @PathVariable("id") int topicId,
-                            @PathVariable("idPage") int idPage) {
+                            @PathVariable("idPage") int idPage,
+                            @RequestParam(name = "sort", defaultValue = "asc") String sort) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
-        Pageable pageable = PageRequest.of(idPage - 1, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(idPage-1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
+
         Theme theme = themeService.findById(thisURL(request));
         Page allInstanceTopic = topicService.findAllTopicsByThemeId(pageable, theme.getId());
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
@@ -63,6 +65,7 @@ public class TopicController {
         model.addAttribute("themeForm", theme);//для названия в заголовке
         model.addAttribute("topicId", topicId);//для паджинации
         model.addAttribute("idPage", idPage);//для паджинации
+        model.addAttribute("sort", sort);
         return "topic";
     }
 
@@ -126,7 +129,7 @@ public class TopicController {
     }
 
 
-    @PostMapping("/searchTopic")
+    @PostMapping("/forum/theme/searchTopic")
     public String searchTopic(Model model, @ModelAttribute("topicName") String topicName) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());

@@ -42,7 +42,8 @@ public class ThemeController {
                         @RequestParam(name = "sort", defaultValue = "asc") String sort) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         //Pageable pageable = new PageRequest(id, PAGE_SIZE);
-        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        //Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
         //Pageable pageable = PageRequest.of(id, PAGE_SIZE);
         Page allInstanceTheme = themeService.findAll(pageable);
 
@@ -51,6 +52,7 @@ public class ThemeController {
         model.addAttribute("allInstanceTheme", allInstanceTheme.getContent());
         model.addAttribute("totalThemeCount", allInstanceTheme.getTotalElements());
         model.addAttribute("forumId", id);
+        model.addAttribute("sort", sort);
         return "forum";
     }
 

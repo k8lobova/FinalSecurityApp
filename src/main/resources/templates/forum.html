@@ -58,13 +58,21 @@
 <br/>
 
 <div class="row">
-<form th:action="@{/forum/searchTheme}" class="col" method="post">
-    <input type="text" name="themeName" placeholder="Search theme by title">
-    <button class="pull-left btn btn-primary" type="submit">Search</button>
-</form>
-<div class="col text-right">
-    <a th:href="@{/forum/1(sort='desc')}"  class="pull-left btn btn-primary">Sort by Date Descending</a>
-</div>
+    <form th:action="@{/forum/searchTheme}" class="col" method="post">
+        <input type="text" name="themeName" placeholder="Search theme by title">
+        <button class="pull-left btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <form th:action="@{/forum/{size}(size=${forumId})}" class="col text-right" method="get" th:if="${sort == 'asc'}">
+        <input type="hidden" name="sort" value="desc">
+        <button type="submit" class="btn btn-primary">The oldest</button>
+    </form>
+
+    <form th:action="@{/forum/{size}(size=${forumId})}" class="col text-right" method="get" th:if="${sort == 'desc'}">
+        <input type="hidden" name="sort" value="asc">
+        <button type="submit" class="btn btn-primary">Most recent</button>
+    </form>
+
 </div>
 
 <!-- Результаты поиска, выводятся только после нажатия кнопки поиска -->
@@ -77,7 +85,8 @@
     <p>No themes found</p>
 </div>
 
-<!-- Кнопка для сортировки по убыванию даты -->
+
+
 
 
 <br>
@@ -116,7 +125,7 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
             <li class="page-item" th:if="${forumId > 1}">
-                <a class="page-link" th:href="@{'/forum/' + ${forumId - 1}}">Previous</a>
+                <a class="page-link" th:href="@{'/forum/' + ${forumId - 1} + '?sort=' + ${sort}}">Previous</a>
             </li>
             <div class="page-item" th:each="i : ${#numbers.sequence(1, sizePage)}" >
 
@@ -125,7 +134,7 @@
                 </li>
 
                 <li class="page-item" th:unless="${forumId == i}" th:if="${i == 1 or i == sizePage or i == forumId - 1 or i == forumId or i == forumId + 1}" >
-                    <a class="page-link" th:href="@{'/forum/' + ${i}}" th:text="${i}"></a>
+                    <a class="page-link" th:href="@{'/forum/' + ${i} + '?sort=' + ${sort}}" th:text="${i}"></a>
                 </li>
 
                 <li class="page-item" th:unless="${i == 1 or i == sizePage or i == forumId - 1 or i == forumId or i == forumId + 1}">
@@ -133,7 +142,7 @@
                 </li>
             </div>
             <li class="page-item" th:if="${forumId < sizePage}">
-                <a class="page-link" th:href="@{'/forum/' + ${forumId + 1}}">Next</a>
+                <a class="page-link" th:href="@{'/forum/' + ${forumId + 1} + '?sort=' + ${sort}}">Next</a>
             </li>
         </ul>
     </nav>
