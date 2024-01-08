@@ -35,6 +35,7 @@ public class TopicController {
 
     private final ThemeService themeService;
     private final MessageService messageService;
+    private String topicName = "";
 
     @Autowired
     public TopicController(TopicService topicService, ThemeService themeService, MessageService messageService) {
@@ -56,7 +57,9 @@ public class TopicController {
         Pageable pageable = PageRequest.of(idPage-1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
 
         Theme theme = themeService.findById(themeId);
-        Page allInstanceTopic = topicService.findAllTopicsByThemeId(pageable, theme.getId());
+        //Page  = topicService.findAllTopicsByThemeId(pageable, theme.getId());
+        Page<Topic> allInstanceTopic = topicService.searchByTopicName(pageable, topicName);
+
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
         model.addAttribute("userRole", userRole);
         model.addAttribute("username", username);
@@ -130,20 +133,9 @@ public class TopicController {
 
 
     @PostMapping("/forum/theme/{id}/searchTopic")
-    public String searchTopic(@PathVariable("id") int id, Model model, @ModelAttribute("topicName") String topicName) {
-        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());
-
-        //Page<Topic> searchResult = topicService.findByTopicNameContaining(pageable,topicName);
-        Page<Topic> searchResult = topicService.searchByTopicName(pageable, topicName);
-        Theme theme = themeService.findById(id);
-        model.addAttribute("themeForm", theme);//для названия в заголовке
-        model.addAttribute("userRole", userRole);
-        model.addAttribute("sizePage", searchResult.getTotalPages());
-        model.addAttribute("allInstanceTopic", searchResult.getContent());
-        model.addAttribute("totalTopicCount", searchResult.getTotalElements());
-        model.addAttribute("idPage", 0);
-        return "topic";
+    public String searchTopic(@PathVariable("id") int id, @ModelAttribute("topicName") String topicName) {
+        this.topicName = topicName;
+        return "redirect:/forum/theme/" + id + "/1";
     }
 
 

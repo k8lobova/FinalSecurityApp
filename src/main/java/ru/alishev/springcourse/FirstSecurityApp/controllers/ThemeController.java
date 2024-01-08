@@ -135,18 +135,6 @@ public class ThemeController {
     }
     @PostMapping("/forum")
     public String goMain(){
-//        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-//        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
-//
-//        //Page<Theme> searchResult = themeService.findByThemeNameContaining(pageable,themeName);
-//        Page<Theme> searchResult = themeService.searchByThemeName(pageable,themeName);
-//
-//
-//        model.addAttribute("userRole", userRole);
-//        model.addAttribute("sizePage", searchResult.getTotalPages());
-//        model.addAttribute("allInstanceTheme", searchResult.getContent());
-//        model.addAttribute("totalThemeCount", searchResult.getTotalElements());
-//        model.addAttribute("forumId", id);
         this.themeName = "";
         return "redirect:/forum/1";
     }
