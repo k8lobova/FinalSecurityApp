@@ -55,7 +55,7 @@ public class TopicService {
     }
 
     public List<Topic> findTopicsByThemeId(int themeId) {
-        return topicRepository.findByThemeId(themeId);   //в этой строчке ошибка  если несколько топиков тема плохо удаляется
+        return topicRepository.findByThemeId(themeId);   //в этой строчке была ошибка если несколько топиков тема плохо удаляется
     }
     public Page<Topic> findAllTopicsByThemeId(Pageable pageable, int themeId) {
         return topicRepository.findAllByThemeId(pageable, Math.toIntExact(themeId));
