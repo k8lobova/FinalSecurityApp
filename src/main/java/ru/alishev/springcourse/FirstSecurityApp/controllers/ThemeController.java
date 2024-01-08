@@ -107,24 +107,21 @@ public class ThemeController {
         return "redirect:/forum/1";
     }
 
-//    @GetMapping("/new")
-//    public String addTheme(@ModelAttribute("theme") Theme theme) {
-//        return "theme/new";
-//    }
-//
-//    @PostMapping()
-//    public String createTheme(@ModelAttribute("theme") @Valid Theme theme,
-//                             BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) return "theme/new";
-//        // Устанавливаем lastPostDate в текущее время
-//        theme.setLastPostDate(new Date());
-//
-//        // Сохраняем объект Theme
-//        themeService.save(theme);
-//        return "redirect:/forum";
-//    }
 
+    @GetMapping("/searchTheme")
+    public String searchTheme(Model model, @RequestParam("themeName") String themeName){
+        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());
 
+        //Page<Theme> searchResult = themeService.findByThemeNameContaining(pageable,themeName);
+        Page<Theme> searchResult = themeService.searchByThemeName(pageable,themeName);
 
+        model.addAttribute("userRole", userRole);
+        model.addAttribute("sizePage", searchResult.getTotalPages());
+        model.addAttribute("allInstanceTheme", searchResult.getContent());
+        model.addAttribute("totalThemeCount", searchResult.getTotalElements());
+        model.addAttribute("forumId", 0);
+        return "forum";
+    }
 
 }

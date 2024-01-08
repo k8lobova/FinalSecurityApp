@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
 
+import java.util.List;
+
 
 /**
  * @author Neil Alishev
@@ -17,4 +19,9 @@ public interface ThemeRepository extends JpaRepository<Theme, Integer> {
     //Page<Theme> findAll(Pageable pageable);
 
     //Optional<Person> findByUsername(String username);
+
+    Page<Theme> findByThemeNameStartingWith(Pageable pageable,String themeName);
+
+    Page<Theme> findByThemeNameContaining(Pageable pageable,String themeName);
 }
+

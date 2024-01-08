@@ -1,6 +1,7 @@
 package ru.alishev.springcourse.FirstSecurityApp.controllers;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.*;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
 import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
 import ru.alishev.springcourse.FirstSecurityApp.services.MessageService;
@@ -13,10 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -55,7 +52,7 @@ public class TopicController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
-        Pageable pageable = PageRequest.of(idPage-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(idPage - 1, PAGE_SIZE, Sort.by("lastPostDate").descending());
         Theme theme = themeService.findById(thisURL(request));
         Page allInstanceTopic = topicService.findAllTopicsByThemeId(pageable, theme.getId());
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
@@ -127,6 +124,23 @@ public class TopicController {
 
         return "redirect:/forum/theme/" + url + "/1";
     }
+
+
+    @GetMapping("/searchTopic")
+    public String searchTopic(Model model, @RequestParam("topicName") String topicName) {
+        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());
+
+        //Page<Topic> searchResult = topicService.findByTopicNameContaining(pageable,topicName);
+        Page<Topic> searchResult = topicService.searchByTopicName(pageable, topicName);
+        model.addAttribute("userRole", userRole);
+        model.addAttribute("sizePage", searchResult.getTotalPages());
+        model.addAttribute("allInstanceTopic", searchResult.getContent());
+        model.addAttribute("totalTopicCount", searchResult.getTotalElements());
+        model.addAttribute("idPage", 0);
+        return "topic";
+    }
+
 
     private int postURL(HttpServletRequest request) {
         String url = request.getHeader("referer"); //URL предыдущая страница

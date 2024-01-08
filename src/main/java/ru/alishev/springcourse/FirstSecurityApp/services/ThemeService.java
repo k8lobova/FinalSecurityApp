@@ -52,11 +52,9 @@ public class ThemeService {
         //Optional<Theme> foundTheme = themeRepository.findById(id);
         return foundTheme.orElse(null);
     }
-
 //    public List<Theme> findAll() {  //??????????
 //        return themeRepository.findAll();
 //    }
-
 
     public Page findAll(Pageable pageable) {
         return themeRepository.findAll(pageable);
@@ -66,6 +64,13 @@ public class ThemeService {
         return themeRepository.findAll ();
     }
 
+    public Page<Theme> searchByThemeName(Pageable pageable,String themeName) {
+        return themeRepository.findByThemeNameStartingWith(pageable,themeName);
+    }
+
+    public Page<Theme> findByThemeNameContaining(Pageable pageable,String themeName) {
+        return themeRepository.findByThemeNameContaining(pageable,themeName);
+    }
 
 }
 

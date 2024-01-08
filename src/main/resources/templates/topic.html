@@ -56,8 +56,24 @@
 
 <h2 class="form-heading text-center" th:text="${themeForm.themeName}"></h2>
 <h5 class="form-heading" align="center"> Total Number of Topics: <span th:text="${totalTopicCount}"></span></h5>
+<br/>
 
+<form th:action="@{/searchTopic}" method="get">
+    <input type="text" name="topicName" placeholder="Search topic by title">
+    <button class="pull-left btn btn-primary" type="submit">Search</button>
+</form>
+
+<!-- Результаты поиска, выводятся только после нажатия кнопки поиска -->
+<div th:if="${param.topicName != null and not #lists.isEmpty(allInstanceTopic)}">
+    <p>Found Topics</p>
+</div>
+
+<!-- Текст, если ничего не найдено -->
+<div th:if="${param.topicName != null and #lists.isEmpty(allInstanceTopic)}">
+    <p>No topics found</p>
+</div>
 <br>
+
 <!-- ТАБЛИЦА С ТОПИКАМИ -->
 <th:block th:if="${not #lists.isEmpty(allInstanceTopic)}">
     <table class="table">

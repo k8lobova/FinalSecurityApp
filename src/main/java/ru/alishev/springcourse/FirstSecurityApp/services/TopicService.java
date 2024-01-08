@@ -57,4 +57,12 @@ public class TopicService {
         //return topicRepository.findAll(pageable, Math.toIntExact(themeId));23.06 28.12
     }
 
+    public Page<Topic> searchByTopicName(Pageable pageable,String topicName) {
+        return topicRepository.findByTopicNameStartingWith(pageable,topicName);
+    }
+
+    public Page<Topic> findByTopicNameContaining(Pageable pageable,String topicName) {
+        return topicRepository.findByTopicNameContaining(pageable,topicName);
+    }
+
 }

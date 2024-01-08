@@ -9,8 +9,7 @@
 
     <title>Forum</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/common.css">
@@ -56,16 +55,33 @@
 
 <h2 class="form-heading" align="center">FORUM</h2>
 <h5 class="form-heading" align="center"> Total Number of Themes: <span th:text="${totalThemeCount}"></span></h5>
+<br/>
 
+<form th:action="@{/searchTheme}" method="get">
+    <input type="text" name="themeName" placeholder="Search theme by title">
+    <button class="pull-left btn btn-primary" type="submit">Search</button>
+</form>
+
+<!-- Результаты поиска, выводятся только после нажатия кнопки поиска -->
+<div th:if="${param.themeName != null and not #lists.isEmpty(allInstanceTheme)}">
+    <p>Found Themes</p>
+</div>
+
+<!-- Текст, если ничего не найдено -->
+<div th:if="${param.themeName != null and #lists.isEmpty(allInstanceTheme)}">
+    <p>No themes found</p>
+</div>
 <br>
+
+
 <!-- ТАБЛИЦА С ТЕМАМИ ФОРУМА -->
-<th:block th:if="${#lists.isEmpty(allInstanceTheme) == false}">
+<th:block th:if="${not #lists.isEmpty(allInstanceTheme)}">
     <table class="table">
         <thead class="thead-inverse">
         <tr>
             <th>Forum Title</th>
-            <th>Last post data</th>
             <th>Description</th>
+            <th>Last post data</th>
             <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                 <th>Options</th>
             </th:block>
@@ -74,8 +90,8 @@
         <tbody th:each="theme : ${allInstanceTheme}">
         <tr>
             <td><a th:href="@{/forum/theme/{id}/1(id=${theme.id})}" th:text="${theme.themeName}">Forum Title</a></td>
-            <td th:text="${theme.lastPostDate}">Last post data</td>
             <td th:text="${theme.description}">Description</td>
+            <td th:text="${theme.lastPostDate}">Last post data</td>
             <th:block th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                 <td>
                     <a th:href="@{/deleteTheme/{id}(id=${theme.id})}" class="pull-left btn btn-danger">Delete</a>
@@ -130,6 +146,9 @@
 <!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <link href="js/bootstrap.min.js" rel="stylesheet">
 </body>
 

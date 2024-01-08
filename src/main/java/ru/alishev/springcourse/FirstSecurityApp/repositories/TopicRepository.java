@@ -27,4 +27,8 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
     Page<Topic> findAllByThemeId(Pageable pageable, int themeId);
 
+    Page<Topic> findByTopicNameStartingWith(Pageable pageable,String topicName);
+
+    Page<Topic> findByTopicNameContaining(Pageable pageable,String topicName);
+
 }
