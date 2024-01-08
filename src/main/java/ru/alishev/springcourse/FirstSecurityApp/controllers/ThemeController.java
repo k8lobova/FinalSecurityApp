@@ -28,6 +28,7 @@ public class ThemeController {
     private final PersonDetailsService peopleService;
     private final ThemeService themeService;
     private final TopicService topicService;
+    private String themeName = "";
 
     @Autowired
     public ThemeController(PersonDetailsService peopleService, ThemeService themeService, TopicService topicService) {
@@ -45,7 +46,9 @@ public class ThemeController {
         //Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
         Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
         //Pageable pageable = PageRequest.of(id, PAGE_SIZE);
-        Page allInstanceTheme = themeService.findAll(pageable);
+
+        Page allInstanceTheme = themeService.searchByThemeName(pageable,themeName);
+        //Page allInstanceTheme = themeService.findAll(pageable);
 
         model.addAttribute("userRole", userRole);
         model.addAttribute("sizePage", allInstanceTheme.getTotalPages());
@@ -114,19 +117,39 @@ public class ThemeController {
 
 
     @PostMapping("/forum/searchTheme")
-    public String searchTheme(Model model, @ModelAttribute("themeName") String themeName){
-        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());
-
-        //Page<Theme> searchResult = themeService.findByThemeNameContaining(pageable,themeName);
-        Page<Theme> searchResult = themeService.searchByThemeName(pageable,themeName);
-
-        model.addAttribute("userRole", userRole);
-        model.addAttribute("sizePage", searchResult.getTotalPages());
-        model.addAttribute("allInstanceTheme", searchResult.getContent());
-        model.addAttribute("totalThemeCount", searchResult.getTotalElements());
-        model.addAttribute("forumId", 0);
-        return "forum";
+    public String searchTheme(@ModelAttribute("themeName") String themeName){
+//        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+//        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
+//
+//        //Page<Theme> searchResult = themeService.findByThemeNameContaining(pageable,themeName);
+//        Page<Theme> searchResult = themeService.searchByThemeName(pageable,themeName);
+//
+//
+//        model.addAttribute("userRole", userRole);
+//        model.addAttribute("sizePage", searchResult.getTotalPages());
+//        model.addAttribute("allInstanceTheme", searchResult.getContent());
+//        model.addAttribute("totalThemeCount", searchResult.getTotalElements());
+//        model.addAttribute("forumId", id);
+        this.themeName = themeName;
+        return "redirect:/forum/1";
     }
+    @PostMapping("/forum")
+    public String goMain(){
+//        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+//        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
+//
+//        //Page<Theme> searchResult = themeService.findByThemeNameContaining(pageable,themeName);
+//        Page<Theme> searchResult = themeService.searchByThemeName(pageable,themeName);
+//
+//
+//        model.addAttribute("userRole", userRole);
+//        model.addAttribute("sizePage", searchResult.getTotalPages());
+//        model.addAttribute("allInstanceTheme", searchResult.getContent());
+//        model.addAttribute("totalThemeCount", searchResult.getTotalElements());
+//        model.addAttribute("forumId", id);
+        this.themeName = "";
+        return "redirect:/forum/1";
+    }
+
 
 }

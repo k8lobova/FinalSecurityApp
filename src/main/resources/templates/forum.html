@@ -81,7 +81,7 @@
 </div>
 
 <!-- Текст, если ничего не найдено -->
-<div th:if="${param.themeName != null and #lists.isEmpty(allInstanceTheme)}">
+<div th:if="${param.themeName != null and #lists.isEmpty(allInstanceTheme)}" >
     <p>No themes found</p>
 </div>
 
@@ -125,7 +125,7 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
             <li class="page-item" th:if="${forumId > 1}">
-                <a class="page-link" th:href="@{'/forum/' + ${forumId - 1} + '?sort=' + ${sort}}">Previous</a>
+                <a class="page-link" th:href="@{${forumId - 1} + '?sort=' + ${sort}}">Previous</a>
             </li>
             <div class="page-item" th:each="i : ${#numbers.sequence(1, sizePage)}" >
 
@@ -134,7 +134,7 @@
                 </li>
 
                 <li class="page-item" th:unless="${forumId == i}" th:if="${i == 1 or i == sizePage or i == forumId - 1 or i == forumId or i == forumId + 1}" >
-                    <a class="page-link" th:href="@{'/forum/' + ${i} + '?sort=' + ${sort}}" th:text="${i}"></a>
+                    <a class="page-link" th:href="@{ ${i} + '?sort=' + ${sort}}" th:text="${i}"></a>
                 </li>
 
                 <li class="page-item" th:unless="${i == 1 or i == sizePage or i == forumId - 1 or i == forumId or i == forumId + 1}">
@@ -142,7 +142,7 @@
                 </li>
             </div>
             <li class="page-item" th:if="${forumId < sizePage}">
-                <a class="page-link" th:href="@{'/forum/' + ${forumId + 1} + '?sort=' + ${sort}}">Next</a>
+                <a class="page-link" th:href="@{${forumId + 1} + '?sort=' + ${sort}}">Next</a>
             </li>
         </ul>
     </nav>
