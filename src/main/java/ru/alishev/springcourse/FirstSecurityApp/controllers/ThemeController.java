@@ -77,8 +77,9 @@ public class ThemeController {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if (userRole.equals("[ROLE_ADMIN]")) {
             themeService.delete(id);
-            if (topicService.findTopicByThemeId(id) != null)
-                topicService.delete(topicService.findTopicByThemeId(id).getId());
+            if (topicService.findTopicsByThemeId(id) != null) {
+                topicService.deleteAll(topicService.findTopicsByThemeId(id));
+            }
         }
         return "redirect:/forum/1";
     }

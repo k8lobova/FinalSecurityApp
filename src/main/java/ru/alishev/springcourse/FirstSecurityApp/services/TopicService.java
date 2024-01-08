@@ -40,6 +40,11 @@ public class TopicService {
         topicRepository.deleteById(id);
     }
 
+    @Transactional
+    public void deleteAll(List<Topic> topics) {
+        topicRepository.deleteAll(topics);
+    }
+
     public Topic findById(int id) {
         Optional<Topic> foundTopic = topicRepository.findById(id);
         return foundTopic.orElse(null);
@@ -49,7 +54,7 @@ public class TopicService {
         return topicRepository.findAll();
     }
 
-    public Topic findTopicByThemeId(int themeId) {
+    public List<Topic> findTopicsByThemeId(int themeId) {
         return topicRepository.findByThemeId(themeId);   //в этой строчке ошибка  если несколько топиков тема плохо удаляется
     }
     public Page<Topic> findAllTopicsByThemeId(Pageable pageable, int themeId) {

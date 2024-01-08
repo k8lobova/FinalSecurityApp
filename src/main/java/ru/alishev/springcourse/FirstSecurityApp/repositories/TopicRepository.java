@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
 import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
 
+import java.util.List;
+
 
 /**
  * @author Neil Alishev
@@ -23,7 +25,7 @@ public interface TopicRepository extends JpaRepository<Topic, Integer> {
 
     //Optional<Person> findByUsername(String username);
 
-    Topic findByThemeId(int themeId);
+    List<Topic> findByThemeId(int themeId);
 
     Page<Topic> findAllByThemeId(Pageable pageable, int themeId);
 
