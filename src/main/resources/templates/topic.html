@@ -58,7 +58,7 @@
 <h5 class="form-heading" align="center"> Total Number of Topics: <span th:text="${totalTopicCount}"></span></h5>
 <br/>
 
-<form th:action="@{/searchTopic}" method="get">
+<form th:action="@{/searchTopic}" method="post">
     <input type="text" name="topicName" placeholder="Search topic by title">
     <button class="pull-left btn btn-primary" type="submit">Search</button>
 </form>

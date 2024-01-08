@@ -57,7 +57,7 @@
 <h5 class="form-heading" align="center"> Total Number of Themes: <span th:text="${totalThemeCount}"></span></h5>
 <br/>
 
-<form th:action="@{/searchTheme}" method="get">
+<form th:action="@{/searchTheme}" method="post">
     <input type="text" name="themeName" placeholder="Search theme by title">
     <button class="pull-left btn btn-primary" type="submit">Search</button>
 </form>

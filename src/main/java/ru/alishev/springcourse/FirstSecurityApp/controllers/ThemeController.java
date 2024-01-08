@@ -109,8 +109,8 @@ public class ThemeController {
     }
 
 
-    @GetMapping("/searchTheme")
-    public String searchTheme(Model model, @RequestParam("themeName") String themeName){
+    @PostMapping("/searchTheme")
+    public String searchTheme(Model model, @ModelAttribute("themeName") String themeName){
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());
 

@@ -126,8 +126,8 @@ public class TopicController {
     }
 
 
-    @GetMapping("/searchTopic")
-    public String searchTopic(Model model, @RequestParam("topicName") String topicName) {
+    @PostMapping("/searchTopic")
+    public String searchTopic(Model model, @ModelAttribute("topicName") String topicName) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());
 
