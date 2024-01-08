@@ -57,11 +57,15 @@
 <h5 class="form-heading" align="center"> Total Number of Themes: <span th:text="${totalThemeCount}"></span></h5>
 <br/>
 
-
-<form th:action="@{/forum/searchTheme}" method="post">
+<div class="row">
+<form th:action="@{/forum/searchTheme}" class="col" method="post">
     <input type="text" name="themeName" placeholder="Search theme by title">
     <button class="pull-left btn btn-primary" type="submit">Search</button>
 </form>
+<div class="col text-right">
+    <a th:href="@{/forum/1(sort='desc')}"  class="pull-left btn btn-primary">Sort by Date Descending</a>
+</div>
+</div>
 
 <!-- Результаты поиска, выводятся только после нажатия кнопки поиска -->
 <div th:if="${param.themeName != null and not #lists.isEmpty(allInstanceTheme)}">
@@ -74,9 +78,7 @@
 </div>
 
 <!-- Кнопка для сортировки по убыванию даты -->
-<div class="text-right">
-    <a th:href="@{/forum/1(sort='desc')}"  class="pull-left btn btn-primary">Sort by Date Descending</a>
-</div>
+
 
 <br>
 <!-- ТАБЛИЦА С ТЕМАМИ ФОРУМА -->
