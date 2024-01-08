@@ -12,16 +12,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
-
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="css/common.css">
 
 </head>
 <body>
 
 <!-- НАВИГАЦИОННЫЙ БАР, ШТОРКА -->
-<nav class="navbar navbar-inverse navbar-fixed-to navbar navbar-dark bg-primary">
+<nav class="navbar navbar-inverse navbar-fixed-to navbar navbar-dark bg-dark">
 
     <div class="container">
         <div class="navbar-header">
@@ -67,24 +64,27 @@
         <div class="chat_container">
             <!-- ФОРМА ОТОБРАЖЕНИЯ и ВВОДА СООБЩЕНИЙ -->
             <div class="col-sm-12 message_section">
-                <div class="row">
+                <div class="">
                     <div class="chat_area">
                         <ul class="list-unstyled">
                             <!-- items мы указываем параметр из метода GET в контроллере, присваиваем ему имя
                                var="" по которому мы можем обращаться к полям нашего акласса
                                Соответственно будут выведены поля класса каждого инстанса пока они не закончатся -->
-                            <li th:each="mes : ${allInstanceMessages}" th:if="${topicForm.id == mes.topicId}"
-                                class="left clearfix">
+                            <li th:each="mes : ${allInstanceMessages}" th:if="${topicForm.id == mes.topicId}" class="pull-left clearfix">
                                 <span class="chat-img1 pull-left"></span>
                                 <div class="chat-body1 clearfix">
-                                    <p><b th:text="${mes.username}"></b>
-                                        <br th:text="${mes.message}"></p>
-                                    <div class="chat_time pull-right">
-                                        &nbsp; <span th:text="${mes.date}"></span>
+                                    <b th:text="${mes.username}"></b>
+                                    <br>
+                                    <p th:text="${mes.message}"></p>
+                                    <div class="text-right pull-right">
+
+                                        <a th:if="${mes.username == username || userRole == '[ROLE_ADMIN]'}"
+                                           th:href="@{/deleteMessage/{id}(id=${mes.id})}" class="">Delete</a>
+                                        &nbsp;
+                                        <a th:text="${mes.date}"></a>
                                     </div>
                                     <!-- Удалять можно только свои сообщения, PS в контроллере тоже есть проверка -->
-                                    <a th:if="${mes.username == username || userRole == '[ROLE_ADMIN]'}"
-                                       th:href="@{/deleteMessage/{id}(id=${mes.id})}" class="pull-right">Delete</a>
+
                                 </div>
                             </li>
                         </ul>
@@ -124,6 +124,6 @@
 <!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link href="js/bootstrap.min.js" rel="stylesheet">
+<!--<link href="js/bootstrap.min.js" rel="stylesheet">-->
 </body>
 </html>
