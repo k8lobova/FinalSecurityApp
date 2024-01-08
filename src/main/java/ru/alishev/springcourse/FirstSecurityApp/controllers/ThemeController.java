@@ -109,7 +109,7 @@ public class ThemeController {
     }
 
 
-    @PostMapping("/searchTheme")
+    @PostMapping("/forum/searchTheme")
     public String searchTheme(Model model, @ModelAttribute("themeName") String themeName){
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());
