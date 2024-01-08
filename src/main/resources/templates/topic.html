@@ -60,17 +60,17 @@
 
 <div class="row">
 
-    <form th:action="@{/forum/theme/searchTopic}" class="col" method="post">
+    <form th:action="@{/forum/theme/{idT}/searchTopic(idT=${themeId})}" class="col" method="post">
         <input type="text" name="topicName" placeholder="Search topic by title">
         <button class="pull-left btn btn-primary" type="submit">Search</button>
     </form>
 
-    <form th:action="@{/forum/theme/{idT}/{idP}(idT=${topicId},idP=${idPage})}" class="col text-right" method="get" th:if="${sort == 'asc'}">
+    <form th:action="@{/forum/theme/{idT}/{idP}(idT=${themeId},idP=${idPage})}" class="col text-right" method="get" th:if="${sort == 'asc'}">
         <input type="hidden" name="sort" value="desc">
         <button type="submit" class="btn btn-primary">The oldest</button>
     </form>
 
-    <form th:action="@{/forum/theme/{idT}/{idP}(idT=${topicId},idP=${idPage})}" class="col text-right" method="get" th:if="${sort == 'desc'}">
+    <form th:action="@{/forum/theme/{idT}/{idP}(idT=${themeId},idP=${idPage})}" class="col text-right" method="get" th:if="${sort == 'desc'}">
         <input type="hidden" name="sort" value="asc">
         <button type="submit" class="btn btn-primary">Most recent</button>
     </form>
@@ -142,7 +142,7 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
             <li class="page-item" th:if="${idPage > 1}">
-                <a class="page-link" th:href="@{'/forum/theme/' + ${topicId} + '/' +  ${idPage - 1} + '?sort=' + ${sort}}">Previous</a>
+                <a class="page-link" th:href="@{'/forum/theme/' + ${themeId} + '/' +  ${idPage - 1} + '?sort=' + ${sort}}">Previous</a>
             </li>
             <div class="page-item" th:each="i : ${#numbers.sequence(1, sizePage)}" >
                 <li class="page-item active" th:if="${idPage == i}" >
@@ -150,7 +150,7 @@
                 </li>
 
                 <li class="page-item" th:unless="${idPage == i}" th:if="${i == 1 or i == sizePage or i == idPage - 1 or i == idPage or i == idPage + 1}" >
-                    <a class="page-link" th:href="@{'/forum/theme/' + ${topicId} + '/' + ${i} + '?sort=' + ${sort}}" th:text="${i}"></a>
+                    <a class="page-link" th:href="@{'/forum/theme/' + ${themeId} + '/' + ${i} + '?sort=' + ${sort}}" th:text="${i}"></a>
                 </li>
 
                 <li class="page-item" th:unless="${i == 1 or i == sizePage or i == idPage - 1 or i == idPage or i == idPage + 1}">
@@ -160,7 +160,7 @@
 
             </div>
             <li class="page-item" th:if="${idPage < sizePage}">
-                <a class="page-link" th:href="@{'/forum/theme/' + ${topicId} + '/' +  ${idPage + 1} + '?sort=' + ${sort}}">Next</a>
+                <a class="page-link" th:href="@{'/forum/theme/' + ${themeId} + '/' +  ${idPage + 1} + '?sort=' + ${sort}}">Next</a>
             </li>
         </ul>
     </nav>

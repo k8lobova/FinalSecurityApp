@@ -46,7 +46,7 @@ public class TopicController {
     //ГЛАВНАЯ
     @RequestMapping(value = "forum/theme/{id}/{idPage}", method = RequestMethod.GET)
     public String topicPage(Model model, HttpServletRequest request,
-                            @PathVariable("id") int topicId,
+                            @PathVariable("id") int themeId,
                             @PathVariable("idPage") int idPage,
                             @RequestParam(name = "sort", defaultValue = "asc") String sort) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
@@ -55,7 +55,7 @@ public class TopicController {
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
         Pageable pageable = PageRequest.of(idPage-1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
 
-        Theme theme = themeService.findById(thisURL(request));
+        Theme theme = themeService.findById(themeId);
         Page allInstanceTopic = topicService.findAllTopicsByThemeId(pageable, theme.getId());
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
         model.addAttribute("userRole", userRole);
@@ -63,7 +63,7 @@ public class TopicController {
         model.addAttribute("allInstanceTopic", allInstanceTopic.getContent());
         model.addAttribute("totalTopicCount", allInstanceTopic.getTotalElements());
         model.addAttribute("themeForm", theme);//для названия в заголовке
-        model.addAttribute("topicId", topicId);//для паджинации
+        model.addAttribute("themeId", themeId);//для паджинации
         model.addAttribute("idPage", idPage);//для паджинации
         model.addAttribute("sort", sort);
         return "topic";
@@ -129,13 +129,15 @@ public class TopicController {
     }
 
 
-    @PostMapping("/forum/theme/searchTopic")
-    public String searchTopic(Model model, @ModelAttribute("topicName") String topicName) {
+    @PostMapping("/forum/theme/{id}/searchTopic")
+    public String searchTopic(@PathVariable("id") int id, Model model, @ModelAttribute("topicName") String topicName) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         Pageable pageable = PageRequest.of(0, PAGE_SIZE, Sort.by("lastPostDate").descending());
 
         //Page<Topic> searchResult = topicService.findByTopicNameContaining(pageable,topicName);
         Page<Topic> searchResult = topicService.searchByTopicName(pageable, topicName);
+        Theme theme = themeService.findById(id);
+        model.addAttribute("themeForm", theme);//для названия в заголовке
         model.addAttribute("userRole", userRole);
         model.addAttribute("sizePage", searchResult.getTotalPages());
         model.addAttribute("allInstanceTopic", searchResult.getContent());
