@@ -60,7 +60,7 @@
 
 <div class="row">
 
-    <form th:action="@{/forum/theme/{idT}/searchTopic(idT=${themeId})}" class="col" method="post">
+    <form th:action="@{/forum/theme/{idT}/searchTopic(idT=${themeForm.getId()})}" class="col" method="post">
         <input type="text" name="topicName" placeholder="Search topic by title">
         <button class="pull-left btn btn-primary" type="submit">Search</button>
     </form>
