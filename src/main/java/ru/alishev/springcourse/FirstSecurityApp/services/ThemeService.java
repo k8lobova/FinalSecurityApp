@@ -57,7 +57,7 @@ public class ThemeService {
         return themeRepository.findAll ();
     }
 
-    @Transactional
+
     public Page<Theme> searchByThemeName(Pageable pageable,String themeName) {
         return themeRepository.findByThemeNameStartingWith(pageable,themeName);
     }

@@ -57,6 +57,7 @@
 <h5 class="form-heading" align="center"> Total Number of Themes: <span th:text="${totalThemeCount}"></span></h5>
 <br/>
 
+
 <form th:action="@{/forum/searchTheme}" method="post">
     <input type="text" name="themeName" placeholder="Search theme by title">
     <button class="pull-left btn btn-primary" type="submit">Search</button>
@@ -71,9 +72,13 @@
 <div th:if="${param.themeName != null and #lists.isEmpty(allInstanceTheme)}">
     <p>No themes found</p>
 </div>
+
+<!-- Кнопка для сортировки по убыванию даты -->
+<div class="text-right">
+    <a th:href="@{/forum/1(sort='desc')}"  class="pull-left btn btn-primary">Sort by Date Descending</a>
+</div>
+
 <br>
-
-
 <!-- ТАБЛИЦА С ТЕМАМИ ФОРУМА -->
 <th:block th:if="${not #lists.isEmpty(allInstanceTheme)}">
     <table class="table">

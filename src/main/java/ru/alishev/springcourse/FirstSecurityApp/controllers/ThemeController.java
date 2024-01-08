@@ -36,8 +36,10 @@ public class ThemeController {
         this.topicService = topicService;
     }
 
+
     @GetMapping("/forum/{id}")
-    public String forum(Model model, @PathVariable("id") int id) {
+    public String forum(Model model, @PathVariable("id") int id,
+                        @RequestParam(name = "sort", defaultValue = "asc") String sort) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         //Pageable pageable = new PageRequest(id, PAGE_SIZE);
         Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
