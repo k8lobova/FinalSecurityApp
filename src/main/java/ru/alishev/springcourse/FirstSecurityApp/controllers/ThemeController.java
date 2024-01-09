@@ -120,7 +120,8 @@ public class ThemeController {
         themeForm.setLastPostDate(themeService.findById(id).getLastPostDate());
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 
-        if (!themeService.isThemeNameUnique(themeForm.getThemeName())) {
+        if ((!themeService.isThemeNameUnique(themeForm.getThemeName()))
+                && (!themeService.findById(id).getThemeName().equals(themeForm.getThemeName()))) {
             bindingResult.rejectValue("themeName", "theme.error.duplicateName", "Тема с таким именем уже существует");
             themeForm.setThemeName(themeForm.getThemeName());
         }
