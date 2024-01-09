@@ -7,9 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.FirstSecurityApp.models.Person;
 import ru.alishev.springcourse.FirstSecurityApp.repositories.PeopleRepository;
 
-/**
- * @author Neil Alishev
- */
+
 @Service
 public class RegistrationService {
 

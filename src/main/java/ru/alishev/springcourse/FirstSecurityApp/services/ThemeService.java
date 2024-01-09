@@ -12,11 +12,6 @@ import ru.alishev.springcourse.FirstSecurityApp.repositories.ThemeRepository;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by Ромчи on 25.07.2017.
- */
-
-
 @Service
 @Transactional(readOnly = true)
 public class ThemeService {
@@ -27,6 +22,11 @@ public class ThemeService {
     public ThemeService(ThemeRepository themeRepository) {
         this.themeRepository = themeRepository;
 
+    }
+
+    public boolean isThemeNameUnique(String themeName) {
+        // Проверяем, существует ли тема с указанным именем
+        return themeRepository.findByThemeName(themeName) == null;
     }
 
     @Transactional
@@ -54,17 +54,18 @@ public class ThemeService {
     }
 
     public List<Theme> getAllThemes() {
-        return themeRepository.findAll ();
+        return themeRepository.findAll();
     }
 
 
-    public Page<Theme> searchByThemeName(Pageable pageable,String themeName) {
-        return themeRepository.findByThemeNameStartingWith(pageable,themeName);
+    public Page<Theme> searchByThemeName(Pageable pageable, String themeName) {
+        return themeRepository.findByThemeNameStartingWith(pageable, themeName);
     }
 
-    public Page<Theme> findByThemeNameContaining(Pageable pageable,String themeName) {
-        return themeRepository.findByThemeNameContaining(pageable,themeName);
+    public Page<Theme> findByThemeNameContaining(Pageable pageable, String themeName) {
+        return themeRepository.findByThemeNameContaining(pageable, themeName);
     }
+
 
 }
 

@@ -128,7 +128,7 @@
             <li class="page-item" th:if="${idPage > 1}">
                 <a class="page-link" th:href="@{${idPage - 1} + '?sort=' + ${sort}}">Previous</a>
             </li>
-            <div class="page-item" th:each="i : ${#numbers.sequence(1, sizePage)}" >
+            <div class="page-item" th:each="i, iterStat : ${#numbers.sequence(1, sizePage)}" >
                 <li class="page-item active" th:if="${idPage == i}" >
                     <span class="page-link" th:text="${i}"></span>
                 </li>
@@ -137,10 +137,13 @@
                     <a class="page-link" th:href="@{${i} + '?sort=' + ${sort}}" th:text="${i}"></a>
                 </li>
 
-                <li class="page-item" th:unless="${i == 1 or i == sizePage or i == idPage - 1 or i == idPage or i == idPage + 1}">
+                <li class="page-item" th:if="${(idPage > 3) and (i == 2 and iterStat.index == 1)}">
                     <span>...</span>
                 </li>
 
+                <li class="page-item" th:if="${(idPage < sizePage - 2) and (i == sizePage - 1 and iterStat.index == sizePage - 2)}">
+                    <span>...</span>
+                </li>
 
             </div>
             <li class="page-item" th:if="${idPage < sizePage}">

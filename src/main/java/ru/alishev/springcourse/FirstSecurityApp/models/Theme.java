@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "Theme")
-public class Theme implements Comparable<Theme>{
+public class Theme implements Comparable<Theme> {
 
     @Id
     @Column(name = "id")
@@ -20,7 +20,7 @@ public class Theme implements Comparable<Theme>{
 
 
     @NotEmpty(message = "Имя темы не должно быть пустым")
-    @Size(max = 200, message = "Имя темы должно до 200 символов длиной")
+    @Size(max = 100, message = "Имя темы должно до 100 символов длиной")
     @Column(name = "theme_name")
     private String themeName;
 
@@ -65,7 +65,7 @@ public class Theme implements Comparable<Theme>{
         this.lastPostDate = lastPostDate;
     }
 
-        @Override
+    @Override
     public int compareTo(Theme that) {
         return that.lastPostDate.compareTo(this.getLastPostDate());
     }

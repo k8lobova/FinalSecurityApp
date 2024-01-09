@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
-import ru.alishev.springcourse.FirstSecurityApp.services.MessageService;
 import ru.alishev.springcourse.FirstSecurityApp.services.ThemeService;
 import ru.alishev.springcourse.FirstSecurityApp.services.PersonDetailsService;
 import ru.alishev.springcourse.FirstSecurityApp.services.TopicService;
@@ -25,14 +24,12 @@ import java.util.List;
 @SuppressWarnings("SpringMVCViewInspection")
 @Controller
 public class ThemeController {
-    private final PersonDetailsService peopleService;
     private final ThemeService themeService;
     private final TopicService topicService;
     private String themeName = "";
 
     @Autowired
-    public ThemeController(PersonDetailsService peopleService, ThemeService themeService, TopicService topicService) {
-        this.peopleService = peopleService;
+    public ThemeController(ThemeService themeService, TopicService topicService) {
         this.themeService = themeService;
         this.topicService = topicService;
     }
@@ -44,10 +41,10 @@ public class ThemeController {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         //Pageable pageable = new PageRequest(id, PAGE_SIZE);
         //Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
-        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(id - 1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
         //Pageable pageable = PageRequest.of(id, PAGE_SIZE);
 
-        Page allInstanceTheme = themeService.searchByThemeName(pageable,themeName);
+        Page allInstanceTheme = themeService.searchByThemeName(pageable, themeName);
         //Page allInstanceTheme = themeService.findAll(pageable);
 
         model.addAttribute("userRole", userRole);
@@ -66,19 +63,27 @@ public class ThemeController {
     }
 
     @PostMapping("/createTheme")
-    public String addTheme(@ModelAttribute("themeForm") Theme themeForm,
+    public String addTheme(@ModelAttribute("themeForm") @Valid Theme themeForm,
                            BindingResult bindingResult) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-//        if (bindingResult.hasErrors()) {
-//            System.out.println("ошибка");
-//            return "/createTheme";
-//            }
-        if (userRole.equals ("[ROLE_ADMIN]")) {
+
+        if (!themeService.isThemeNameUnique(themeForm.getThemeName())) {
+            bindingResult.rejectValue("themeName", "theme.error.duplicateName", "Тема с таким именем уже существует");
+            themeForm.setThemeName(null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            themeForm.setThemeName(null);
+            return "createUpdateTheme";
+        }
+
+        if (userRole.equals("[ROLE_ADMIN]")) {
             if (themeForm.getId() == 0) {
                 themeForm.setLastPostDate(new Date());
                 themeService.save(themeForm);
             }
         }
+
         return "redirect:/forum/1";
     }
 
@@ -97,8 +102,6 @@ public class ThemeController {
     }
 
 
-
-
     //БЛОК РЕДАКТИРОВАНИЯ
     @GetMapping("/updateTheme/{id}")
     public String updateTheme(@PathVariable("id") int id, Model model) {
@@ -110,9 +113,20 @@ public class ThemeController {
 
     @PostMapping("/updateTheme/{id}")
     public String updateTheme(@PathVariable("id") int id,
-                              @ModelAttribute("themeForm") Theme themeForm) {
+                              @ModelAttribute("themeForm") Theme themeForm,
+                              BindingResult bindingResult) {
         themeForm.setLastPostDate(themeService.findById(id).getLastPostDate());
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+
+        if (!themeService.isThemeNameUnique(themeForm.getThemeName())) {
+            bindingResult.rejectValue("themeName", "theme.error.duplicateName", "Тема с таким именем уже существует");
+            themeForm.setThemeName(themeForm.getThemeName());
+        }
+
+        if (bindingResult.hasErrors()) {
+            themeForm.setThemeName(themeForm.getThemeName());
+            return "createUpdateTheme";
+        }
         if (userRole.equals("[ROLE_ADMIN]")) {
             themeService.save(themeForm);
         }
@@ -122,7 +136,7 @@ public class ThemeController {
 
 
     @PostMapping("/forum/searchTheme")
-    public String searchTheme(@ModelAttribute("themeName") String themeName){
+    public String searchTheme(@ModelAttribute("themeName") String themeName) {
 //        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 //        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
 //
@@ -138,8 +152,9 @@ public class ThemeController {
         this.themeName = themeName;
         return "redirect:/forum/1";
     }
+
     @PostMapping("/forum")
-    public String goMain(){
+    public String goMain() {
         this.themeName = "";
         return "redirect:/forum/1";
     }

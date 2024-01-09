@@ -98,10 +98,10 @@
                         <div class="message_write">
                             <textarea resize="none" th:field="*{message}" class="form-control"
                                       placeholder="Your message.."></textarea>
+                            <div style="color:red" th:if="${#fields.hasErrors('message')}" th:errors="*{message}">Message error</div>
                             <div class="clearfix"></div>
                             <div class="chat_bottom">
                                 <button type="submit" class="pull-right btn btn-primary">Send</button>
-                                <a th:href="@{/forum/theme/topic/{id}(id=${topicForm.id})}" class="pull-left btn btn-primary">Refresh</a>
                             </div>
                         </div>
                     </form>

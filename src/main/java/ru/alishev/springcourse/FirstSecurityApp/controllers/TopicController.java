@@ -1,6 +1,7 @@
 package ru.alishev.springcourse.FirstSecurityApp.controllers;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
 import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
@@ -16,17 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
 import static ru.alishev.springcourse.FirstSecurityApp.controllers.Constant.PAGE_SIZE;
 
-
-/**
- * Controller for POJO {@link ru.alishev.springcourse.FirstSecurityApp.models.Theme;}
- * Это контроллер работает с формой(JSP) создания новой темы, добавляет новый топик и переадресовывает
- * пользователя на страницу содержащую список топиков.
- */
 
 @Controller
 public class TopicController {
@@ -45,7 +41,7 @@ public class TopicController {
     }
 
     //ГЛАВНАЯ
-    @RequestMapping(value = "forum/theme/{id}/{idPage}", method = RequestMethod.GET)
+    @GetMapping("forum/theme/{id}/{idPage}")
     public String topicPage(Model model, HttpServletRequest request,
                             @PathVariable("id") int themeId,
                             @PathVariable("idPage") int idPage,
@@ -54,7 +50,7 @@ public class TopicController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
-        Pageable pageable = PageRequest.of(idPage-1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(idPage - 1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
 
         Theme theme = themeService.findById(themeId);
         //Page  = topicService.findAllTopicsByThemeId(pageable, theme.getId());
@@ -75,17 +71,27 @@ public class TopicController {
     //БЛОК СОЗДАНИЯ НОВОГО ТОПИКА
     private int id;
 
-    @RequestMapping(value = "/createTopic", method = RequestMethod.GET)
+    @GetMapping("/createTopic")
     public String pageCreateTopic(Model model, HttpServletRequest request) {
         model.addAttribute("topicForm", new Topic());
         id = postURL(request);
         return "createUpdateTopic";
     }
 
-    @RequestMapping(value = "/createTopic", method = RequestMethod.POST)
-    public String addTopic(@ModelAttribute("topicForm") Topic topicForm) {
+    @PostMapping("/createTopic")
+    public String addTopic(@ModelAttribute("topicForm") @Valid Topic topicForm,
+                           BindingResult bindingResult) {
+
+        if (!topicService.isTopicNameUnique(topicForm.getTopicName())) {
+            bindingResult.rejectValue("topicName", "topic.error.duplicateName", "Топик с таким именем уже существует");
+            topicForm.setTopicName(null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            topicForm.setTopicName(null);
+            return "createUpdateTopic";
+        }
         if (topicForm.getId() == 0) {
-            //if (topicForm.getId ( ) == null) {
             topicForm.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             topicForm.setThemeId(id);
             topicForm.setLastPostDate(new Date());
@@ -95,7 +101,7 @@ public class TopicController {
     }
 
     //БЛОК УДАЛЕНИЯ
-    @RequestMapping(value = "/deleteTopic/{id}", method = RequestMethod.GET)
+    @GetMapping("/deleteTopic/{id}")
     public String deleteTopic(@PathVariable("id") int id, HttpServletRequest request) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if (topicService.findById(id).getUsername().equals(
@@ -111,7 +117,7 @@ public class TopicController {
     //БЛОК РЕДАКТИРОВАНИЯ
     private int url;
 
-    @RequestMapping(value = "/updateTopic/{id}", method = RequestMethod.GET)
+    @GetMapping("/updateTopic/{id}")
     public String updateTopic(@PathVariable("id") int id, Model model, HttpServletRequest request) {
         model.addAttribute("topicForm", topicService.findById(id));
         List<Topic> allInstanceTopic = topicService.getAllTopic();
@@ -120,12 +126,23 @@ public class TopicController {
         return "createUpdateTopic";
     }
 
-    @RequestMapping(value = "/updateTopic/{id}", method = RequestMethod.POST)
+    @PostMapping(value = "/updateTopic/{id}")
     public String updateTopic(@PathVariable("id") int id,
-                              @ModelAttribute("topicForm") Topic topicForm) {
+                              @ModelAttribute("topicForm") Topic topicForm,
+                              BindingResult bindingResult) {
         topicForm.setLastPostDate(topicService.findById(id).getLastPostDate());
         topicForm.setUsername(topicService.findById(id).getUsername());
         topicForm.setThemeId(topicService.findById(id).getThemeId());
+
+        if (!topicService.isTopicNameUnique(topicForm.getTopicName())) {
+            bindingResult.rejectValue("topicName", "topic.error.duplicateName", "Топик с таким именем уже существует");
+            topicForm.setTopicName(topicForm.getTopicName());
+        }
+
+        if (bindingResult.hasErrors()) {
+            topicForm.setTopicName(topicForm.getTopicName());
+            return "createUpdateTopic";
+        }
         topicService.save(topicForm);
 
         return "redirect:/forum/theme/" + url + "/1";

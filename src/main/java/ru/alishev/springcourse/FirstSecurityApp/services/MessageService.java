@@ -1,14 +1,10 @@
 package ru.alishev.springcourse.FirstSecurityApp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.FirstSecurityApp.models.Message;
-import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
 import ru.alishev.springcourse.FirstSecurityApp.repositories.MessageRepository;
-import ru.alishev.springcourse.FirstSecurityApp.repositories.PeopleRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +34,7 @@ public class MessageService {
         Optional<Message> foundMessage = messageRepository.findById(id);
         return foundMessage.orElse(null);
     }
+
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
     }
@@ -46,7 +43,6 @@ public class MessageService {
     public Message findMessageByTopicId(int topicId) {
         return messageRepository.findByTopicId(topicId);
     }
-
 
 
 }

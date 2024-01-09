@@ -44,7 +44,6 @@ public class Person {
     private String role;
 
 
-
     // Конструктор по умолчанию нужен для Spring
     public Person() {
     }

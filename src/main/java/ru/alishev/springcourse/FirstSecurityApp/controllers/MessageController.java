@@ -1,5 +1,7 @@
 package ru.alishev.springcourse.FirstSecurityApp.controllers;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
 import ru.alishev.springcourse.FirstSecurityApp.models.Message;
 import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
@@ -10,10 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Collections;
 import java.util.Date;
@@ -37,7 +35,7 @@ public class MessageController {
     private int id;
     private Date date;
 
-    @RequestMapping(value = "forum/theme/topic/{id}", method = RequestMethod.GET)
+    @GetMapping("forum/theme/topic/{id}")
     public String welcome(@PathVariable("id") int id, Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
@@ -56,13 +54,19 @@ public class MessageController {
      * проверка на null (Long obj)
      * добавляем имя юзера
      * добавляем дату и сохраняем в бд*/
-    @RequestMapping(value = "/forum/theme/topic", method = RequestMethod.POST)
-    public String addMessage(@ModelAttribute("messageForm") Message messageForm, Model model) {
+    @PostMapping("/forum/theme/topic")
+    public String addMessage(@ModelAttribute("messageForm") Message messageForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            messageForm.setMessage(null);
+            System.out.println("Ошибка               .");
+            return "redirect:/forum/theme/topic/" + id;
+            //return "message";
+        }
+
         if (messageForm.getId() == 0) {
             messageForm.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             date = new Date();
             messageForm.setDate(date);
-            //обновим даты, ибо появилось новое сообщение
             updateDataPost();
             messageForm.setTopicId(id);
             messageService.save(messageForm);
@@ -71,7 +75,7 @@ public class MessageController {
     }
 
     //БЛОК УДАЛЕНИЯ
-    @RequestMapping(value = "/deleteMessage/{id}", method = RequestMethod.GET)
+    @GetMapping("/deleteMessage/{id}")
     public String deleteMessage(@PathVariable("id") int id, Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();

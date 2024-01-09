@@ -22,7 +22,7 @@ public class Topic implements Comparable<Topic> {
     private String username;
 
     @NotEmpty(message = "Имя топика не должно быть пустым")
-    @Size(max = 200, message = "Имя топика должно до 200 символов длиной")
+    @Size(max = 100, message = "Имя топика должно до 100 символов длиной")
     @Column(name = "topic_name")
     private String topicName;
 

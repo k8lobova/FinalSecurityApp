@@ -1,6 +1,7 @@
 package ru.alishev.springcourse.FirstSecurityApp.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 
@@ -12,7 +13,7 @@ public class Message {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    @NotEmpty(message = "Сообщение не должно быть пустым")
     @Column(name = "message")
     private String message;
 
