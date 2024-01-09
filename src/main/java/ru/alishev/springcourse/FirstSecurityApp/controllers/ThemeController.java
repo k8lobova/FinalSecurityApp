@@ -26,6 +26,7 @@ import java.util.List;
 public class ThemeController {
     private final ThemeService themeService;
     private final TopicService topicService;
+
     private String themeName = "";
 
     @Autowired
@@ -53,6 +54,7 @@ public class ThemeController {
         model.addAttribute("totalThemeCount", allInstanceTheme.getTotalElements());
         model.addAttribute("forumId", id);
         model.addAttribute("sort", sort);
+        model.addAttribute("themeName", themeName);
         return "forum";
     }
 
@@ -137,23 +139,11 @@ public class ThemeController {
 
     @PostMapping("/forum/searchTheme")
     public String searchTheme(@ModelAttribute("themeName") String themeName) {
-//        String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-//        Pageable pageable = PageRequest.of(id-1, PAGE_SIZE, Sort.by("lastPostDate").descending());
-//
-//        //Page<Theme> searchResult = themeService.findByThemeNameContaining(pageable,themeName);
-//        Page<Theme> searchResult = themeService.searchByThemeName(pageable,themeName);
-//
-//
-//        model.addAttribute("userRole", userRole);
-//        model.addAttribute("sizePage", searchResult.getTotalPages());
-//        model.addAttribute("allInstanceTheme", searchResult.getContent());
-//        model.addAttribute("totalThemeCount", searchResult.getTotalElements());
-//        model.addAttribute("forumId", id);
         this.themeName = themeName;
         return "redirect:/forum/1";
     }
 
-    @PostMapping("/forum")
+    @GetMapping("/forum")
     public String goMain() {
         this.themeName = "";
         return "redirect:/forum/1";
