@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -55,14 +56,11 @@ public class MessageController {
      * добавляем имя юзера
      * добавляем дату и сохраняем в бд*/
     @PostMapping("/forum/theme/topic")
-    public String addMessage(@ModelAttribute("messageForm") Message messageForm, BindingResult bindingResult) {
+    public String addMessage(@ModelAttribute("messageForm") @Valid Message messageForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            messageForm.setMessage(null);
-            System.out.println("Ошибка               .");
-            return "redirect:/forum/theme/topic/" + id;
-            //return "message";
+            messageForm.setTopicId(id);
+            return "message";
         }
-
         if (messageForm.getId() == 0) {
             messageForm.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             date = new Date();
