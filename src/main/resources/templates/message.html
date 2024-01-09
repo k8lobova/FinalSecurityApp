@@ -64,7 +64,6 @@
         <div class="chat_container">
             <!-- ФОРМА ОТОБРАЖЕНИЯ и ВВОДА СООБЩЕНИЙ -->
             <div class="col-sm-12 message_section">
-                <div class="">
                     <div class="chat_area">
                         <ul class="list-unstyled">
                             <!-- items мы указываем параметр из метода GET в контроллере, присваиваем ему имя
@@ -77,6 +76,40 @@
                                     <br>
                                     <p th:text="${mes.message}"></p>
                                     <div class="text-right pull-right">
+
+                                        <!-- Блок для отображения комментариев -->
+                                        <div class="comments">
+                                            <ul class="list-unstyled">
+                                                <li th:each="comment : ${allInstanceComments}" class="pull-left clearfix">
+                                                    <div>
+                                                        <b th:text="${comment.username}"></b>
+                                                        <br>
+                                                        <p th:text="${comment.comment}"></p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Форма для добавления комментария -->
+<!--                                        <div class="comment_write">-->
+<!--                                            <textarea resize="none" name="comment" class="form-control" placeholder="Your comment.."></textarea>-->
+<!--                                            <div class="comment_bottom">-->
+<!--                                                <button type="submit" class="pull-right btn btn-primary">Add Comment</button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+                                        <!-- Форма для добавления комментария -->
+                                        <form th:action="@{/forum/theme/topic/{id}/message(id=${topicForm.getId()})}" method="post" th:object="${commentForm}">
+                                            <div class="comment_write">
+                                                <textarea resize="none" th:field="*{comment}" class="form-control" placeholder="Your comment.."></textarea>
+                                                <!--                                <div style="color:red" th:if="${#fields.hasErrors('commentText')}" th:errors="*{comment}">Comment error</div>-->
+                                                <div class="comment_bottom">
+                                                    <button type="submit" class="pull-right btn btn-primary">Add Comment</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+
 
                                         <a th:if="${mes.username == username || userRole == '[ROLE_ADMIN]'}"
                                            th:href="@{/deleteMessage/{id}(id=${mes.id})}" class="">Delete</a>
@@ -94,7 +127,7 @@
                     <!-- Ввод сообщений в textatea и отправка формы на сервер
                     P.S. Форма отправляет данные на ту-же страницу на которой находимся,
                     ModelAttribyte должен быть прописан и в GET и в POST, что бы знать, куда отправлять и откуда брать -->
-                    <form th:action="@{/forum/theme/topic/{idT}(idT=${topicForm.id})}" method="POST" th:object="${messageForm}">
+                    <form th:action="@{/forum/theme/topic}" method="POST" th:object="${messageForm}">
                         <div class="message_write">
                             <textarea resize="none" th:field="*{message}" class="form-control"
                                       placeholder="Your message.."></textarea>
@@ -107,7 +140,6 @@
                     </form>
                     <!-- Ввод и отправка сообщений из формы КОНЕЦ -->
                 </div>
-            </div>
         </div>
     </div>
 </div>

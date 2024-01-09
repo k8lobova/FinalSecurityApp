@@ -58,7 +58,6 @@ public class MessageController {
     @PostMapping("/forum/theme/topic")
     public String addMessage(@ModelAttribute("messageForm") @Valid Message messageForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            messageForm.setTopicId(id);
             return "message";
         }
         if (messageForm.getId() == 0) {
