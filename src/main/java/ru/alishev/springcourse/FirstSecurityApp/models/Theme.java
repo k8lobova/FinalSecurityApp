@@ -2,6 +2,8 @@ package ru.alishev.springcourse.FirstSecurityApp.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -16,6 +18,9 @@ public class Theme implements Comparable<Theme>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
+    @NotEmpty(message = "Имя темы не должно быть пустым")
+    @Size(max = 200, message = "Имя темы должно до 200 символов длиной")
     @Column(name = "theme_name")
     private String themeName;
 

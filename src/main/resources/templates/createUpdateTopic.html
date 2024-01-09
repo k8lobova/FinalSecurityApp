@@ -67,9 +67,10 @@
     </div>
     <br>
     <br>
-    <form method="POST" th:object="${topicForm}" class="form-signin">
+    <form th:method="POST" th:object="${topicForm}" class="form-signin">
         <div class="message_write">
             <input type="text" th:field="*{topicName}" class="form-control" placeholder="The title of the topic" autofocus="true" />
+            <div style="color:red" th:if="${#fields.hasErrors('topicName')}" th:errors="*{topicName}">Title error</div>
             <br />
             <textarea resize="none" th:field="*{description}" class="form-control" placeholder="Your description.."></textarea>
             <div class="clearfix"></div>

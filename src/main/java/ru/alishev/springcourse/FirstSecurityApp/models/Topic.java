@@ -2,6 +2,8 @@ package ru.alishev.springcourse.FirstSecurityApp.models;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -19,7 +21,9 @@ public class Topic implements Comparable<Topic> {
     @Column(name = "username")//знаем создателя топика
     private String username;
 
-    @Column(name = "topic_name")//знаем ися топика
+    @NotEmpty(message = "Имя топика не должно быть пустым")
+    @Size(max = 200, message = "Имя топика должно до 200 символов длиной")
+    @Column(name = "topic_name")
     private String topicName;
 
     @Column(name = "description")//описание

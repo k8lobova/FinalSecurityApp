@@ -66,8 +66,13 @@ public class ThemeController {
     }
 
     @PostMapping("/createTheme")
-    public String addTheme(@ModelAttribute("themeForm") Theme themeForm) {
+    public String addTheme(@ModelAttribute("themeForm") Theme themeForm,
+                           BindingResult bindingResult) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+//        if (bindingResult.hasErrors()) {
+//            System.out.println("ошибка");
+//            return "/createTheme";
+//            }
         if (userRole.equals ("[ROLE_ADMIN]")) {
             if (themeForm.getId() == 0) {
                 themeForm.setLastPostDate(new Date());
