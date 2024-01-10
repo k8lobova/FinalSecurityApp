@@ -62,9 +62,12 @@ public class ThemeService {
         return themeRepository.findByThemeNameStartingWith(pageable, themeName);
     }
 
-    public Page<Theme> findByThemeNameContaining(Pageable pageable, String themeName) {
-        return themeRepository.findByThemeNameContaining(pageable, themeName);
-    }
+//    public Page<Theme> searchByThemeName(Pageable pageable, String themeName) {
+//        return themeRepository.findByThemeNameContaining(pageable, themeName);
+//    }
+//    public Page<Theme> searchByThemeName(Pageable pageable, String themeName) {
+//        return themeRepository.findByThemeNameEquals(pageable, themeName);
+//    }
 
 
 }

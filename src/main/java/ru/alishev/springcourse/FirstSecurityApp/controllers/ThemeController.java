@@ -45,13 +45,17 @@ public class ThemeController {
         Pageable pageable = PageRequest.of(id - 1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
         //Pageable pageable = PageRequest.of(id, PAGE_SIZE);
 
-        Page allInstanceTheme = themeService.searchByThemeName(pageable, themeName);
-        //Page allInstanceTheme = themeService.findAll(pageable);
 
-        model.addAttribute("userRole", userRole);
+        Page allInstanceTheme = themeService.searchByThemeName(pageable, themeName);
+
         model.addAttribute("sizePage", allInstanceTheme.getTotalPages());
         model.addAttribute("allInstanceTheme", allInstanceTheme.getContent());
         model.addAttribute("totalThemeCount", allInstanceTheme.getTotalElements());
+
+        //Page allInstanceTheme = themeService.findAll(pageable);
+
+        model.addAttribute("userRole", userRole);
+
         model.addAttribute("forumId", id);
         model.addAttribute("sort", sort);
         model.addAttribute("themeName", themeName);

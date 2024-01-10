@@ -12,7 +12,9 @@ public interface ThemeRepository extends JpaRepository<Theme, Integer> {
     Page<Theme> findByThemeNameStartingWith(Pageable pageable, String themeName);
 
     Page<Theme> findByThemeNameContaining(Pageable pageable, String themeName);
+    Page<Theme> findByThemeNameEquals(Pageable pageable, String themeName);
 
     Theme findByThemeName(String themeName);
+
 }
 
