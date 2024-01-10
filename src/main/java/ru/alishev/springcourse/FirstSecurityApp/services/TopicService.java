@@ -71,9 +71,9 @@ public class TopicService {
         List<Topic> topicList = findTopicsByThemeId(themeId);
         topicList.retainAll(byName);
         if (sort.equalsIgnoreCase("desc")) {
-            topicList.sort(Topic::compareTo);
-        } else {
             topicList.sort(Topic::compareTo2);
+        } else {
+            topicList.sort(Topic::compareTo);
         }
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), topicList.size());
