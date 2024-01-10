@@ -102,4 +102,16 @@ public class Topic implements Comparable<Topic> {
                 ", themeId=" + themeId +
                 '}';
     }
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Topic &&
+                id == ((Topic) o).getId() &&
+                topicName.equals(((Topic) o).getTopicName()) &&
+                themeId == ((Topic) o).getThemeId();
+    }
+
+    @Override
+    public int hashCode() {
+        return id ^ topicName.hashCode() ^ themeId;
+    }
 }

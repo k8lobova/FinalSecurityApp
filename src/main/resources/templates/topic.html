@@ -105,7 +105,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="topic : ${allInstanceTopic}" th:if="${topic.themeId == themeForm.id}">
+        <tr th:each="topic : ${allInstanceTopic}" th:if="${topic.themeId == themeId}">
             <td th:text="${topic.username}"></td>
             <td><a th:href="@{/forum/theme/topic/{id}(id=${topic.id})}" th:text="${topic.topicName}"></a></td>
             <td th:text="${topic.description}"></td>

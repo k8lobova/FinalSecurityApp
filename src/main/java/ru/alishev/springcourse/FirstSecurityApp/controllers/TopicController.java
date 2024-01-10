@@ -48,13 +48,14 @@ public class TopicController {
                             @RequestParam(name = "sort", defaultValue = "asc") String sort) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        int count = 0;
         //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
         Pageable pageable = PageRequest.of(idPage - 1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
 
         Theme theme = themeService.findById(themeId);
-        //Page  = topicService.findAllTopicsByThemeId(pageable, theme.getId());
-        Page<Topic> allInstanceTopic = topicService.searchByTopicName(pageable, topicName);
+
+        Page<Topic> allInstanceTopic = topicService.searchByTopicNameAndThemeId(pageable, topicName, themeId);
 
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
         model.addAttribute("userRole", userRole);
@@ -152,6 +153,12 @@ public class TopicController {
     @PostMapping("/forum/theme/{id}/searchTopic")
     public String searchTopic(@PathVariable("id") int id, @ModelAttribute("topicName") String topicName) {
         this.topicName = topicName;
+        return "redirect:/forum/theme/" + id + "/1";
+    }
+
+    @GetMapping("/forum/theme/{id}")
+    public String searchTopic(@PathVariable("id") int id) {
+        this.topicName = "";
         return "redirect:/forum/theme/" + id + "/1";
     }
 
