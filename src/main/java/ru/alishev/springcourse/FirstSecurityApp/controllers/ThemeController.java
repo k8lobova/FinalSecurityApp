@@ -69,8 +69,13 @@ public class ThemeController {
                            BindingResult bindingResult) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 
-        if (!themeService.isThemeNameUnique(themeForm.getThemeName())) {
+        if (!themeService.isThemeNameUnique(themeForm.getThemeName().trim())) {
             bindingResult.rejectValue("themeName", "theme.error.duplicateName", "Тема с таким именем уже существует");
+            themeForm.setThemeName(themeForm.getThemeName());
+        }
+
+        if (themeForm.getThemeName().trim().isEmpty()) {
+            bindingResult.rejectValue("themeName", "theme.error.empty", "Имя темы не должно быть пустым");
             themeForm.setThemeName(null);
         }
 
@@ -125,7 +130,10 @@ public class ThemeController {
             bindingResult.rejectValue("themeName", "theme.error.duplicateName", "Тема с таким именем уже существует");
             themeForm.setThemeName(themeForm.getThemeName());
         }
-
+        if (themeForm.getThemeName().trim().isEmpty()) {
+            bindingResult.rejectValue("themeName", "theme.error.empty", "Имя темы не должно быть пустым");
+            themeForm.setThemeName(themeForm.getThemeName());
+        }
         if (bindingResult.hasErrors()) {
             themeForm.setThemeName(themeForm.getThemeName());
             return "createUpdateTheme";

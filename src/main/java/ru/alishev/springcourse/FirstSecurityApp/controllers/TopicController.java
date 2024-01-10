@@ -48,7 +48,6 @@ public class TopicController {
                             @RequestParam(name = "sort", defaultValue = "asc") String sort) {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        int count = 0;
         //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
         Pageable pageable = PageRequest.of(idPage - 1, PAGE_SIZE);
@@ -83,8 +82,13 @@ public class TopicController {
     public String addTopic(@ModelAttribute("topicForm") @Valid Topic topicForm,
                            BindingResult bindingResult) {
 
-        if (!topicService.isTopicNameUnique(topicForm.getTopicName())) {
+        if (!topicService.isTopicNameUnique(topicForm.getTopicName().trim())) {
             bindingResult.rejectValue("topicName", "topic.error.duplicateName", "Топик с таким именем уже существует");
+            topicForm.setTopicName(topicForm.getTopicName());
+        }
+
+        if (topicForm.getTopicName().trim().isEmpty()) {
+            bindingResult.rejectValue("topicName", "topic.error.emptyName", "Имя топика не должно быть пустым");
             topicForm.setTopicName(null);
         }
 
@@ -135,8 +139,13 @@ public class TopicController {
         topicForm.setUsername(topicService.findById(id).getUsername());
         topicForm.setThemeId(topicService.findById(id).getThemeId());
 
-        if (!topicService.isTopicNameUnique(topicForm.getTopicName())) {
+        if ((!topicService.isTopicNameUnique(topicForm.getTopicName().trim()))
+                && (!topicService.findById(id).getTopicName().equals(topicForm.getTopicName()))) {
             bindingResult.rejectValue("topicName", "topic.error.duplicateName", "Топик с таким именем уже существует");
+            topicForm.setTopicName(topicForm.getTopicName());
+        }
+        if (topicForm.getTopicName().trim().isEmpty()) {
+            bindingResult.rejectValue("topicName", "topic.error.emptyName", "Имя топика не должно быть пустым");
             topicForm.setTopicName(topicForm.getTopicName());
         }
 
