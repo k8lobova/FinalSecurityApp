@@ -51,11 +51,11 @@ public class TopicController {
         int count = 0;
         //Pageable pageable = PageRequest.of(idPage, PAGE_SIZE);
         //Pageable pageable = new PageRequest (idPage, PAGE_SIZE);
-        Pageable pageable = PageRequest.of(idPage - 1, PAGE_SIZE, sort.equalsIgnoreCase("desc") ? Sort.by("lastPostDate").ascending() : Sort.by("lastPostDate").descending());
+        Pageable pageable = PageRequest.of(idPage - 1, PAGE_SIZE);
 
         Theme theme = themeService.findById(themeId);
 
-        Page<Topic> allInstanceTopic = topicService.searchByTopicNameAndThemeId(pageable, topicName, themeId);
+        Page<Topic> allInstanceTopic = topicService.searchByTopicNameAndThemeId(pageable, topicName, themeId, sort);
 
         model.addAttribute("sizePage", allInstanceTopic.getTotalPages());
         model.addAttribute("userRole", userRole);

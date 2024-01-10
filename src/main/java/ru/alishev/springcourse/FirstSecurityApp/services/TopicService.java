@@ -2,14 +2,14 @@ package ru.alishev.springcourse.FirstSecurityApp.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import ru.alishev.springcourse.FirstSecurityApp.repositories.TopicRepository;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,13 +66,20 @@ public class TopicService {
         return topicRepository.findByTopicNameStartingWith(topicName);
     }
 
-    public Page<Topic> searchByTopicNameAndThemeId(Pageable pageable, String topicName, int themeId) {
+    public Page<Topic> searchByTopicNameAndThemeId(Pageable pageable, String topicName, int themeId, String sort) {
         List<Topic> byName = searchByTopicName(topicName);
         List<Topic> topicList = findTopicsByThemeId(themeId);
         topicList.retainAll(byName);
+        if (sort.equalsIgnoreCase("desc")) {
+            topicList.sort(Topic::compareTo);
+        } else {
+            topicList.sort(Topic::compareTo2);
+        }
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), topicList.size());
-        return new PageImpl<>(topicList.subList(start, end), pageable, topicList.size());
+        return new PageImpl<>(topicList.subList(start, end),
+                                pageable,
+                                topicList.size());
     }
 
     public Page<Topic> findByTopicNameContaining(Pageable pageable, String topicName) {

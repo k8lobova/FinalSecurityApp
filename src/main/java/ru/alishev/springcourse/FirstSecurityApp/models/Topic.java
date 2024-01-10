@@ -88,7 +88,10 @@ public class Topic implements Comparable<Topic> {
 
     @Override
     public int compareTo(Topic that) {
-        return that.lastPostDate.compareTo(this.getLastPostDate());
+        return that.lastPostDate.compareTo(getLastPostDate());
+    }
+    public int compareTo2(Topic that) {
+        return getLastPostDate().compareTo(that.lastPostDate);
     }
 
     @Override
