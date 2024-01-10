@@ -54,9 +54,12 @@
 <br>
 <br>
 <br>
-
-<h2 class="form-heading" align="center" th:text="${topicForm.topicName}"></h2>
-
+<div class="col-lg-8 mx-auto p-3 py-md-5">
+    <main>
+        <h2 class="form-heading" align="center" th:text="${topicForm.topicName}"></h2>
+        <p class="fs-5 col-md-8" align="centre" th:text="${topicForm.description}"></p>
+    </main>
+</div>
 <br>
 <br>
 <div class="main_section">
@@ -80,17 +83,19 @@
                                         <!-- Блок для отображения комментариев -->
                                         <div class="comments">
                                             <ul class="list-unstyled">
-                                                <li th:each="comment : ${allInstanceComments}" class="pull-left clearfix">
+                                                <div th:if="${!allInstanceComments.isEmpty()}">
+                                                <li th:each="comment : ${allInstanceComments}" th:if="${mes.id == comment.messageId}" class="pull-left clearfix">
                                                     <div>
                                                         <b th:text="${comment.username}"></b>
                                                         <br>
                                                         <p th:text="${comment.comment}"></p>
                                                     </div>
                                                 </li>
+                                                </div>
                                             </ul>
                                         </div>
 
-                                        <!-- Форма для добавления комментария -->
+<!--                                         Форма для добавления комментария -->
 <!--                                        <div class="comment_write">-->
 <!--                                            <textarea resize="none" name="comment" class="form-control" placeholder="Your comment.."></textarea>-->
 <!--                                            <div class="comment_bottom">-->
@@ -99,7 +104,7 @@
 <!--                                        </div>-->
 
                                         <!-- Форма для добавления комментария -->
-                                        <form th:action="@{/forum/theme/topic/{id}/message(id=${topicForm.getId()})}" method="post" th:object="${commentForm}">
+                                        <form th:action="@{/forum/theme/topic/{idT}/{id}/addComment(id=${mes.getId()}, idT=${topicForm.getId()})}" method="post" th:object="${commentForm}">
                                             <div class="comment_write">
                                                 <textarea resize="none" th:field="*{comment}" class="form-control" placeholder="Your comment.."></textarea>
                                                 <!--                                <div style="color:red" th:if="${#fields.hasErrors('commentText')}" th:errors="*{comment}">Comment error</div>-->
@@ -127,7 +132,7 @@
                     <!-- Ввод сообщений в textatea и отправка формы на сервер
                     P.S. Форма отправляет данные на ту-же страницу на которой находимся,
                     ModelAttribyte должен быть прописан и в GET и в POST, что бы знать, куда отправлять и откуда брать -->
-                    <form th:action="@{/forum/theme/topic}" method="POST" th:object="${messageForm}">
+                    <form th:action="@{/forum/theme/topic/{id}/addMessage(id=${topicForm.id})}" method="POST" th:object="${messageForm}">
                         <div class="message_write">
                             <textarea resize="none" th:field="*{message}" class="form-control"
                                       placeholder="Your message.."></textarea>

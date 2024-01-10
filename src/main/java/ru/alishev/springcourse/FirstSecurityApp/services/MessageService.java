@@ -38,6 +38,9 @@ public class MessageService {
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
     }
+    public List<Message> getAllMessagesByTopicID(int topicId) {
+        return messageRepository.findMessagesByTopicId(topicId);
+    }
 
 
     public Message findMessageByTopicId(int topicId) {

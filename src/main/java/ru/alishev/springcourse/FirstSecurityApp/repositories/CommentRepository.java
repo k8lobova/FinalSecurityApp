@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-    Comment findByMessageId(int messageId);
+    List<Comment> findAllByMessageId(int messageId);
 
     //List<Comment> getAllCommentsForMessage(Long messageId);
     //addCommentToMessage(Long messageId, Comment comment);

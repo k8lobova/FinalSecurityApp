@@ -2,9 +2,11 @@ package ru.alishev.springcourse.FirstSecurityApp.controllers;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.alishev.springcourse.FirstSecurityApp.models.Comment;
 import ru.alishev.springcourse.FirstSecurityApp.models.Theme;
 import ru.alishev.springcourse.FirstSecurityApp.models.Message;
 import ru.alishev.springcourse.FirstSecurityApp.models.Topic;
+import ru.alishev.springcourse.FirstSecurityApp.services.CommentService;
 import ru.alishev.springcourse.FirstSecurityApp.services.MessageService;
 import ru.alishev.springcourse.FirstSecurityApp.services.ThemeService;
 import ru.alishev.springcourse.FirstSecurityApp.services.TopicService;
@@ -26,11 +28,15 @@ public class MessageController {
 
     private final ThemeService themeService;
 
+    private final CommentService commentService;
+
     @Autowired
-    public MessageController(MessageService messageService, TopicService topicService, ThemeService themeService) {
+    public MessageController(MessageService messageService, TopicService topicService,
+                             ThemeService themeService, CommentService commentService) {
         this.messageService = messageService;
         this.topicService = topicService;
         this.themeService = themeService;
+        this.commentService = commentService;
     }
 
     private int id;
@@ -40,13 +46,16 @@ public class MessageController {
     public String welcome(@PathVariable("id") int id, Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        List<Message> allInstanceMessages = messageService.getAllMessages();
-        Collections.reverse(allInstanceMessages);//что-бы новые сообщения были вверху страницы
+        List<Message> allInstanceMessages = messageService.getAllMessagesByTopicID(id);
+        List<Comment> allInstanceComments = commentService.getAllCommentForTopic(allInstanceMessages);
+        //Collections.reverse(allInstanceMessages);//что-бы новые сообщения были вверху страницы
         model.addAttribute("userRole", userRole);
         model.addAttribute("username", username);
         model.addAttribute("allInstanceMessages", allInstanceMessages);
+        model.addAttribute("allInstanceComments", allInstanceComments);
         model.addAttribute("topicForm", topicService.findById(id));
         model.addAttribute("messageForm", new Message());//отправляем в конструктор
+        model.addAttribute("commentForm", new Comment());//отправляем в конструктор
         this.id = id;
         return "message";
     }
@@ -55,8 +64,10 @@ public class MessageController {
      * проверка на null (Long obj)
      * добавляем имя юзера
      * добавляем дату и сохраняем в бд*/
-    @PostMapping("/forum/theme/topic")
-    public String addMessage(@ModelAttribute("messageForm") @Valid Message messageForm, BindingResult bindingResult) {
+    @PostMapping("/forum/theme/topic/{topicId}/addMessage")
+    public String addMessage(@ModelAttribute("messageForm") @Valid Message messageForm,
+                             @PathVariable("topicId") int topicId,
+                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "message";
         }
@@ -65,11 +76,31 @@ public class MessageController {
             date = new Date();
             messageForm.setDate(date);
             updateDataPost();
-            messageForm.setTopicId(id);
+            messageForm.setTopicId(topicId);
             messageService.save(messageForm);
         }
-        return "redirect:/forum/theme/topic/" + id;
+        return "redirect:/forum/theme/topic/" + topicId;
     }
+
+    @PostMapping("/forum/theme/topic/{topic_id}/{message_id}/addComment")
+    public String addComment(@ModelAttribute("commentForm") @Valid Comment commentForm,
+                             @PathVariable("message_id") int messageId,
+                             @PathVariable("topic_id") int topicId,
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "message";
+        }
+        if (commentForm.getId() == 0) {
+            commentForm.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            date = new Date();
+            commentForm.setDate(date);
+            updateDataPost();
+            commentForm.setMessageId(messageId);
+            commentService.save(commentForm);
+        }
+        return "redirect:/forum/theme/topic/" + topicId;
+    }
+
 
     //БЛОК УДАЛЕНИЯ
     @GetMapping("/deleteMessage/{id}")

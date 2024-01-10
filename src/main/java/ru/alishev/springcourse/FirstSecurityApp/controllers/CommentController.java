@@ -46,13 +46,13 @@ public class CommentController {
         List<Comment> allInstanceComments = commentService.getAllComments();
         Collections.reverse(allInstanceComments);//что-бы новые сообщения были вверху страницы
 
-        Comment comments = commentService.getAllCommentsForMessage(messageId);
+        //Comment comments = commentService.getAllCommentsForMessage(messageId);
 
         model.addAttribute("userRole", userRole);
         model.addAttribute("username", username);
         model.addAttribute("allInstanceComments", allInstanceComments);
         model.addAttribute("topicForm", topicService.findById(id));
-        model.addAttribute("commentForm", new Comment());//отправляем в конструктор
+        //model.addAttribute("commentForm", new Comment());//отправляем в конструктор
         this.id = id;
         //model.addAttribute("comments", comments);
         return "message";

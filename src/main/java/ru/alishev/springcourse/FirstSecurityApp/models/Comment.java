@@ -22,12 +22,12 @@ public class Comment {
     private String username;
 
     @Column(name = "date")
-
     private Date date;
     @Column(name = "message_id")
     private int messageId;
 
     public Comment() {
+
     }
 
     public int getId() {
