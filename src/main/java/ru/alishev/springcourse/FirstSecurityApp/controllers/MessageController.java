@@ -109,7 +109,11 @@ public class MessageController {
         String userRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if (messageService.findById(id).getUsername().equals
                 (username) || userRole.equals("[ROLE_ADMIN]")) {
+            for (Comment comment : commentService.getAllCommentsForMessage(id)){
+                commentService.delete(comment.getId());
+            }
             messageService.delete(id);
+
         }
         return "redirect:/forum/theme/topic/" + this.id;
     }
