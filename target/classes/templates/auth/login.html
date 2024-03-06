@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login page</title>
+
+
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+<body>
+<div class="container">
+<form name="f" method="post" action="/process_login">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <label for="username">Введите имя пользователя: </label>
+    <input type="text" name="username" class="form-control" id="username"/>
+    <br/>
+    <label for="password">Введите пароль: </label>
+    <input type="password" name="password" class="form-control" id="password"/>
+    <br/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+    <h4 class="text-center"><a href="registration">Create an account</a></h4>
+
+    <div th:if="${param.error}" style="color: red">
+        Неправильные имя или пароль
+    </div>
+</form>
+</div>
+</body>
+</html>

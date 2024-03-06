@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet">
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+<body>
+<div class="container">
+<form th:method="POST" th:action="@{/auth/registration}" th:object="${person}">
+    <label for="username">Введите имя пользователя: </label>
+    <input type="text" th:field="*{username}" id="username" class="form-control" />
+    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+    <br/>
+    <label for="yearofbirth">Введите год рождения: </label>
+    <input type="text" th:field="*{yearofbirth}" id="yearofbirth" class="form-control" />
+    <div style="color:red" th:if="${#fields.hasErrors('yearofbirth')}" th:errors="*{yearofbirth}">Year of birth Error
+    </div>
+    <br/>
+
+    <label for="firstname">Введите Имя: </label>
+    <input type="text" th:field="*{firstname}" id="firstname" class="form-control" />
+    <div style="color:red" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}">Firstname of birth Error
+    </div>
+    <br/>
+
+    <label for="lastname">Введите Фамилию: </label>
+    <input type="text" th:field="*{lastname}" id="lastname" class="form-control" />
+    <div style="color:red" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">Lastname of birth Error
+    </div>
+    <br/>
+    <label for="password">Введите пароль: </label>
+    <input type="password" th:field="*{password}" id="password" class="form-control" />
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+    <br/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+</form>
+</div>
+</body>
+</html>
